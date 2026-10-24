@@ -111,6 +111,13 @@ L3. Assistant pushback accepted by silence: a code-parsing pattern visualizer is
 L4. User decisions (`ask_user_question`): stack = "React + Vite (solo web)"; depth = "Steps +
     prompts + reference"; terminal tool = "Fase 2, despues de la app".
 
+L5a. Slice boundary recorded deliberately: `c08b72e` is the docs slice (391 lines). The step
+     01 commit `154601a` is ~2795 lines of Vite scaffold output, which trips the 400-line
+     review slice. Not split: it is generated boilerplate that beginners must receive whole
+     as one runnable unit (the whole point of step 01 is "it runs"), and no hand-written
+     logic rides along with it. Evidence for steps: tags `step-00`..`step-10` on the app
+     commits, one per step, so `git checkout step-NN` reproduces a step.
+
 L5. Verified facts, not assumptions: iTunes Search API returns 200 with
     `access-control-allow-origin: *` and no key requirement (so no proxy/backend needed); the
     book has 21 chapters, relevant ones 01 Clean-Agile, 03 Hexagonal, 07/08 Clean

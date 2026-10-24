@@ -34,3 +34,34 @@ body {
   color: var(--muted);
   margin: 0 0 2rem;
 }
+
+.search-label {
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.search-label-text {
+  display: block;
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-bottom: 0.4rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.search-input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.hint {
+  color: var(--muted);
+}
