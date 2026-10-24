@@ -115,3 +115,8 @@ body {
   border: 1px solid #5c2a2a;
   border-radius: 10px;
 }
+
+.hint {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
