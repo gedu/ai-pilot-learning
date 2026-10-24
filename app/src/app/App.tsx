@@ -1,12 +1,15 @@
 import { useState } from 'react';
+import { fakePodcasts } from '../infrastructure/fakePodcasts';
+import { PodcastCard } from '../ui/PodcastCard';
 import { SearchInput } from '../ui/SearchInput';
 
 /**
  * La pantalla principal.
  *
  * Paso 01: sólo el nombre, para confirmar que el proyecto levanta.
- * Paso 02: la home completa — título, searchbox y el aviso de "todavía no buscamos".
- *          La caja guarda lo que escribís, pero aún no busca: eso llega en el paso 05/06.
+ * Paso 02: la home completa — título, searchbox y aviso de "todavía no buscamos".
+ * Paso 03: la lista de resultados, con datos mock escritos a mano. La caja escribe
+ *          y la lista no se filtra todavía: eso es el paso 06.
  */
 export function App() {
   const [term, setTerm] = useState('');
@@ -18,9 +21,13 @@ export function App() {
 
       <SearchInput value={term} onChange={setTerm} />
 
-      <section className="results" aria-live="polite">
-        <p className="hint">Escribí algo arriba para empezar a buscar.</p>
-      </section>
+      <ul className="results" aria-label="Resultados">
+        {fakePodcasts.map((podcast) => (
+          <li key={podcast.id}>
+            <PodcastCard podcast={podcast} />
+          </li>
+        ))}
+      </ul>
     </main>
   );
 }
