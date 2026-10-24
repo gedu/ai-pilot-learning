@@ -32,7 +32,7 @@ Cuatro booleanos sueltos (`loading`, `error`, `empty`, `idle`) dejan 16 combinac
 varias son imposibles: ahí nace el "Buscando…" pegado a un "No se pudo conectar". Con un
 único `status`, esa pantalla no se puede ni escribir.
 
-Este paso existe por algo que pasó de verdad en el paso 08: al cambiar el contenedor a los
+Este paso existe por algo que pasó de verdad en el paso 09: al cambiar el contenedor a los
 datos locales, la pantalla **quedó en blanco** y nadie sabía si estaba cargando, vacía o
 rota. Un estado vacío que no se nombra es idéntico a una app rota.
 
@@ -42,8 +42,10 @@ ofrece sola.
 
 ## Cómo lo verificás
 
+Desde `app/`:
+
 1. `npm test` → `46 passed` (9 archivos). Ocho más que el paso 09: cinco nuevos en la
-   pantalla (`npx vitest run src/app` → `12 passed`), dos en la tarjeta y uno en el debounce.
+   pantalla (`npx vitest run src/app/App.test.tsx` → `12 passed`), dos en la tarjeta y uno en el debounce.
 2. `npx vite` → abrí `http://localhost:5173`: al toque ves "Buscando…" y después la lista.
 3. Limpiá la caja: tiene que decir "Escribí algo para empezar a buscar." y **desaparecer**
    la lista anterior.

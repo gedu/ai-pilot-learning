@@ -41,6 +41,8 @@ para que cada import diga de dónde viene cada cosa.
 
 ## Cómo lo verificás
 
+Desde `app/`:
+
 1. `npm test` → `38 passed` (9 archivos). Cuatro más que el paso 08, y los 7 de la pantalla
    siguen intactos.
 2. `npx vitest run src/infrastructure` → `9 passed`: son los 5 de siempre de iTunes más los

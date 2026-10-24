@@ -38,7 +38,7 @@ la IA no te invente campos y con un runner de tests ya configurado para poder us
 el paso 04.
 
 Capítulos para leer mientras tanto:
-[capítulo 09 (React) y 10 (TypeScript)](../../docs/the-book.md).
+[capítulo 10 (TypeScript)](../../docs/the-book.md) — de React vas a leer recién en el paso 02.
 
 ## Cómo lo verificás
 

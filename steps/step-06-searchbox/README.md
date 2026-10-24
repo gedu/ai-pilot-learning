@@ -9,7 +9,7 @@ Y aparece un problema nuevo: si no lo frenás, cada letra es una llamada.
 - `src/app/App.tsx` — la caja deja de ser decorativa: lo que escribís viaja a iTunes.
 - `src/ui/useDebouncedValue.ts` — **nuevo**: un hook que devuelve el valor recién cuando dejás de escribir.
 - `src/ui/useDebouncedValue.test.ts` — **nuevo**: prueba que la espera se mide desde la *última* tecla.
-- `src/app/App.test.tsx` — la pantalla ya no muestra siempre lo mismo; se le agregan los tests de búsqueda.
+- `src/app/App.test.tsx` — la pantalla ya no muestra siempre lo mismo; se le agrega el test de búsqueda.
 
 ## Cómo encaja (ARQUITECTURA)
 
@@ -44,6 +44,8 @@ en el título; si lo filtramos igual, desaparece aunque Apple lo haya traído.
 Capítulo del libro: [capítulo 09 (React)](../../docs/the-book.md).
 
 ## Cómo lo verificás
+
+Desde `app/`:
 
 1. `npm test` → te tiene que decir `24 passed` repartidos en 5 archivos.
 2. `npx vite` → abre `http://localhost:5173`, escribí `react native` y mirá la caja:

@@ -19,6 +19,9 @@ Stack: React + Vite + TypeScript + Vitest.
    - los campos de Apple (`collectionId`, `collectionName`, `artistName`, `artworkUrl100`,
      `trackCount`) se traducen a `id` (texto), `title`, `author`, `imageUrl` y
      `episodeCount` en UNA sola funcioncita, y `id` sale de `collectionId`.
+     Ojo con la foto: Apple manda `artworkUrl100` (100px) y se ve borrosa en una tarjeta de
+     72px en pantalla retina. Apple sirve cualquier tamaño con sólo cambiar ese pedacito de
+     la URL, así que en el traductor reemplazá `100x100bb` por `200x200bb` (y probalo).
 2. Escribí su test JUNTOS, en `src/infrastructure/itunesRepository.test.ts`, simulando la
    respuesta de Apple (no salimos a internet en los tests). Tiene que probar:
    - que la URL pedida es iTunes con `media=podcast` y el `term` correcto;

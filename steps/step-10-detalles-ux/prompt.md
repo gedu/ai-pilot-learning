@@ -51,7 +51,13 @@ agregá por lo menos estos cinco y NO toques los 7 que ya pasan:
 4. mientras la respuesta no llegó, se ve "Buscando…";
 5. si `fetch` lanza, se ve el mensaje legible en español y un botón "Reintentar", y al
    hacerle click con el fetch ya arreglado aparecen los resultados.
-Agregá también un test de `PodcastCard` para "1 episodio" y otro para la imagen de reemplazo.
+Agregá también:
+- un test de `PodcastCard` para "1 episodio" y otro para la imagen de reemplazo;
+- un test en `src/ui/useDebouncedValue.test.ts` que pruebe que la función de "no esperar"
+  (`searchNow`) asienta el valor de una, sin dejar correr los 300ms.
+
+Contá los tests al final: tienen que ser 46 en total. Si te da menos, falta alguno de los
+tres grupos de arriba (pantalla, tarjeta, debounce).
 
 Al final corré `npx vitest run` y decime la cantidad exacta de tests que pasan.
 Explicame en 3 líneas por qué un solo `status` en vez de cuatro booleanos.

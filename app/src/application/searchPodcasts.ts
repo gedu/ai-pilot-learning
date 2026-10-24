@@ -10,7 +10,7 @@ import type { PodcastSearchPort } from '../domain/ports/PodcastSearchPort';
  * cambiar iTunes por otra cosa implicaba tocar la UI. Ahora:
  *
  *   - App.tsx sabe que existe "una cosa que busca podcasts" (el puerto).
- *   - iTunesRepository es quien cumple esa promesa, elegido afuera (en main.tsx).
+ *   - iTunesRepository es quien cumple esa promesa, elegido afuera (en app/container.ts).
  *
  * Beneficio que ya podés tocar: `searchPodcasts.test.ts` prueba toda esta lógica
  * con un objeto falso de 5 líneas, sin red y sin browser.

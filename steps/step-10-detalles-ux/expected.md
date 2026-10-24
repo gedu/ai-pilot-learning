@@ -5,7 +5,9 @@
 ## Debe estar
 
 - [ ] `npm test` → `46 passed` (9 archivos).
-- [ ] `npx vitest run src/app` → `12 passed`.
+- [ ] `npx vitest run src/app/App.test.tsx` → `12 passed`.
+      (ojo: `npx vitest run src/app`, sin el `.tsx`, trae también los tests de `application/`
+      y te va a decir `22 passed`; no es que esté roto, es otra cuenta)
 - [ ] A la derecha de la caja aparece el botón celeste **Buscar**, que en los pasos anteriores
       no existía.
 - [ ] Las cantidades de episodio ya dicen **"1 episodio"** en las tarjetas de uno solo

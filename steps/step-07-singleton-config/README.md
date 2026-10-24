@@ -53,6 +53,8 @@ el if", dos tests caídos.
 
 ## Cómo lo verificás
 
+Desde `app/`:
+
 1. `npx vitest run src/config` → te tiene que decir `6 passed` en 2 archivos.
 2. Abrí `src/config/appConfig.ts` y buscá el `if`. Ese `if` es todo el paso.
 3. Mirá `appConfigBroken.example.test.ts`: un test afirma `not.toBe` (son distintos) y el

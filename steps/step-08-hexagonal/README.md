@@ -48,6 +48,8 @@ Hay un experimento para verlo con los ojos: en el paso 09 vas a cambiar UNA lín
 
 ## Cómo lo verificás
 
+Desde `app/`:
+
 1. `npx vitest run src/application` → te tiene que decir `10 passed` en 2 archivos. Cuatro
    de ésos son los nuevos del caso de uso, y no tocan la red ni el browser.
 2. `npm test` → `34 passed` (8 archivos).
