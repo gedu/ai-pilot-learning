@@ -31,6 +31,12 @@ Y el detalle que no se ve en la foto pero sí en el código: `status` es **un va
 booleanos. La prueba es que ninguna de las cuatro escenas de arriba puede aparecer junto con
 otra. Si ves "Buscando…" al lado de un error, eso es exactamente la trampa de las banderitas.
 
+**Un dato para no asustarse:** si hacés `git checkout` de la rama principal y corrés
+`npm test`, vas a ver **54**, no 46. Los 8 de más son tests que se agregaron después de cerrar
+el curso, cuando se revisó que los propios tests no tuvieran huecos (búsquedas que llegan fuera
+de orden, reintentar dos veces, un término de sólo espacios). Tu paso 10 termina con 46 y está
+perfecto.
+
 ## Si te quedó distinto
 
 Si falta alguno de los cuatro estados, no lo "dejes para después": una pantalla que se queda

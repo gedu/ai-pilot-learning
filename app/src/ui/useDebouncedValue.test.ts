@@ -39,6 +39,10 @@ describe('useDebouncedValue', () => {
     act(() => {
       vi.advanceTimersByTime(200);
     });
+    // Acá se ve la limpieza del timer: pasaron 400ms desde la primera tecla, así
+    // que sin `clearTimeout` la primera ya se habría propagado ('i'). Con cleanup,
+    // el reloj de la tecla anterior se tiró abajo y todavía no se propagó nada.
+    expect(result.current).toEqual(['', expect.any(Function)]);
     rerender({ value: 'iai' });
     act(() => {
       vi.advanceTimersByTime(300);
@@ -46,7 +50,6 @@ describe('useDebouncedValue', () => {
 
     expect(result.current[0]).toBe('iai');
   });
-});
 
   it('searchNow() skips the wait entirely', () => {
     const { result, rerender } = renderHook(({ value }) => useDebouncedValue(value, 300), {
@@ -60,3 +63,23 @@ describe('useDebouncedValue', () => {
 
     expect(result.current[0]).toBe('react native');
   });
+
+  it('works again on a SECOND Enter, not only the first one', () => {
+    const { result, rerender } = renderHook(({ value }) => useDebouncedValue(value, 300), {
+      initialProps: { value: '' },
+    });
+
+    rerender({ value: 'ia' });
+    act(() => {
+      result.current[1]();
+    });
+    expect(result.current[0]).toBe('ia');
+
+    rerender({ value: 'ai' });
+    act(() => {
+      result.current[1]();
+    });
+
+    expect(result.current[0]).toBe('ai');
+  });
+});

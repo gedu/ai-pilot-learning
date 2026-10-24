@@ -49,11 +49,12 @@ describe('searchITunesPodcasts', () => {
     expect(url.searchParams.get('term')).toBe('inteligencia artificial');
   });
 
-  it('asks for a sane amount of results, not thousands', async () => {
+  it('asks for exactly the limit our config says', async () => {
     await searchITunesPodcasts('ai');
 
+    // `<= 25` era una cuenta floja: pasaba aunque el parámetro quedara vacío.
     const url = new URL(vi.mocked(fetch).mock.calls[0][0] as string);
-    expect(Number(url.searchParams.get('limit'))).toBeLessThanOrEqual(25);
+    expect(url.searchParams.get('limit')).toBe('20');
   });
 
   it('turns Apple fields into our own Podcast shape', async () => {
@@ -106,5 +107,13 @@ describe('searchITunesPodcasts', () => {
     await expect(searchITunesPodcasts('ai')).rejects.toThrow(
       'No se pudo buscar en iTunes. Revisá tu conexión.',
     );
+  });
+
+  it('fails with the status code when iTunes answers with an error', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => new Response('boom', { status: 503 })));
+
+    // Error de red y error de servidor son caminos distintos del código; este es
+    // el del `if (!response.ok)`, que un error de red nunca pisa.
+    await expect(searchITunesPodcasts('ai')).rejects.toThrow('iTunes respondió mal (503).');
   });
 });

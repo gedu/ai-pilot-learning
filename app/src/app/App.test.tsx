@@ -50,6 +50,10 @@ function stubITunes(responder: (term: string) => unknown[] = forTerm) {
   );
 }
 
+function answerWith(items: unknown[]) {
+  return new Response(JSON.stringify({ resultCount: items.length, results: items }));
+}
+
 function box() {
   return screen.getByRole('textbox', { name: 'Buscar podcasts' });
 }
@@ -129,6 +133,70 @@ describe('App', () => {
     expect(await screen.findByText('Latent Space: el futuro')).toBeInTheDocument();
   });
 
+  // El cleanup del effect tiene una misión: si cambia el término mientras una
+  // respuesta vieja está en el aire, esa respuesta vieja no puede pisar a la nueva.
+  // Sin el `cancelled`, la app muestra los resultados de la búsqueda anterior.
+  it('ignores an older search that answers after the new one', async () => {
+    vi.useFakeTimers();
+    const resolvers = new Map<string, (r: Response) => void>();
+    vi.stubGlobal(
+      'fetch',
+      vi.fn((request: RequestInfo | URL) => {
+        const term = new URL(String(request)).searchParams.get('term') ?? '';
+        return new Promise<Response>((resolve) => resolvers.set(term, resolve));
+      }),
+    );
+    render(<App />);
+
+    fireEvent.change(box(), { target: { value: 'Latent' } });
+    act(() => {
+      vi.advanceTimersByTime(350);
+    });
+    expect(resolvers.size).toBe(2); // la inicial y 'Latent', las dos en el aire
+
+    // 'Latent' contesta primero y queda en pantalla; la búsqueda inicial contesta
+    // DESPUÉS: si el cleanup no la descartó, pisa la pantalla con su catálogo.
+    // `await` adentro de `act`: la respuesta llega como microtask del `.then`.
+    await act(async () => {
+      resolvers.get('Latent')!(answerWith(CATALOG.slice(1)));
+    });
+    expect(screen.getByText('Latent Space')).toBeInTheDocument();
+
+    await act(async () => {
+      resolvers.get(INITIAL_TERM)!(answerWith(CATALOG));
+    });
+    vi.useRealTimers();
+
+    expect(screen.getByText('Latent Space')).toBeInTheDocument();
+    expect(screen.queryByText('The AI Daily Brief')).not.toBeInTheDocument();
+  });
+
+  // 'Reintentar' tiene que servir la segunda vez también: con un click que sólo
+  // dispara una vez, la persona que está con el celular mal se queda sin opción.
+  it('retries again on the second click', async () => {
+    const { userEvent } = await import('@testing-library/user-event');
+    let calls = 0;
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => {
+        calls += 1;
+        if (calls <= 2) throw new TypeError('Failed to fetch');
+
+        return new Response(JSON.stringify({ resultCount: CATALOG.length, results: CATALOG }));
+      }),
+    );
+    render(<App />);
+    const user = userEvent.setup();
+
+    const retry = await screen.findByRole('button', { name: 'Reintentar' });
+    await user.click(retry); // segundo intento: sigue roto
+    const retry2 = await screen.findByRole('button', { name: 'Reintentar' });
+    await user.click(retry2); // tercer intento: ya anda
+
+    expect(await screen.findByText('The AI Daily Brief')).toBeInTheDocument();
+    expect(calls).toBe(3);
+  });
+
   // Paso 10: iTunes no encontró nada -> hay que DECIRLO. Una pantalla en blanco se
   // confunde con "se rompió" (lo vimos al cambiar el container a los datos locales).
   it('tells the user when the search found nothing', async () => {
@@ -203,6 +271,78 @@ describe('App', () => {
     release();
   });
 
+  // Borrar la caja y dejar un espacio NO es "buscó algo": tiene que verse el mismo
+  // aviso del estado vacío, no un "Buscando…" eterno (la respuesta nunca llega,
+  // porque al repo no le mandamos una búsqueda de espacios).
+  it('treats a term of only spaces as empty', async () => {
+    const { userEvent } = await import('@testing-library/user-event');
+    render(<App />);
+    const user = userEvent.setup();
+
+    await screen.findByText('The AI Daily Brief');
+    await user.clear(box());
+    await user.type(box(), '   ');
+
+    expect(await screen.findByText('Escribí algo para empezar a buscar.')).toBeInTheDocument();
+    expect(screen.queryByText('Buscando…')).not.toBeInTheDocument();
+  });
+
+  // Un espacio al final del término es lo mismo que sin el espacio: comparamos
+  // recortado contra recortado. Si la comparación fuera cruda ('Latent ' !== 'Latent'),
+  // la pantalla se quedaría con "Buscando…" para siempre buscando algo que ya llegó.
+  it('does not get stuck searching when the term has a trailing space', async () => {
+    const { userEvent } = await import('@testing-library/user-event');
+    render(<App />);
+    const user = userEvent.setup();
+
+    await screen.findByText('The AI Daily Brief');
+    await user.clear(box());
+    await user.type(box(), 'Latent ');
+
+    // La respuesta llegó: se ve el resultado y el aviso de espera se fue. Con la
+    // comparación cruda, la app diría "Buscando…" encima de un resultado que ya está.
+    expect(await screen.findByText('Latent Space')).toBeInTheDocument();
+    expect(screen.queryByText('Buscando…')).not.toBeInTheDocument();
+  });
+
+  // El "Buscando…" tiene que aparecer también en la segunda búsqueda: el estado
+  // `searching` se deriva (no es un boolean que alguien enciende a mano), así que
+  // la pantalla no puede mostrar "listo" con los resultados viejos mientras espera.
+  it('shows "Buscando…" while a new search is on its way', async () => {
+    vi.useFakeTimers();
+    let answerSecondSearch: (r: Response) => void = () => {};
+    vi.stubGlobal(
+      'fetch',
+      vi.fn((request: RequestInfo | URL) => {
+        const term = new URL(String(request)).searchParams.get('term') ?? '';
+        if (term === INITIAL_TERM) {
+          return Promise.resolve(answerWith(CATALOG));
+        }
+
+        return new Promise<Response>((resolve) => {
+          answerSecondSearch = resolve;
+        });
+      }),
+    );
+    render(<App />);
+    await act(async () => {});
+
+    fireEvent.change(box(), { target: { value: 'Latent' } });
+    await act(async () => {
+      vi.advanceTimersByTime(350);
+    });
+
+    expect(screen.getByText('The AI Daily Brief')).toBeInTheDocument(); // todavía en pantalla
+    expect(screen.getByText('Buscando…')).toBeInTheDocument(); // y avisa que espera
+
+    await act(async () => {
+      answerSecondSearch(answerWith(CATALOG.slice(1)));
+    });
+    vi.useRealTimers();
+
+    expect(screen.queryByText('Buscando…')).not.toBeInTheDocument();
+  });
+
   // Paso 05/10: si iTunes falla, el mensaje es en criollo y con botón para reintentar.
   it('shows a readable error with a retry when iTunes cannot be reached', async () => {
     vi.stubGlobal(
@@ -239,5 +379,8 @@ describe('App', () => {
     await user.click(retry);
 
     expect(await screen.findByText('The AI Daily Brief')).toBeInTheDocument();
+    // Y la caja roja tiene que IRSE: si el éxito no limpia el error, la pantalla
+    // muestra resultados y "no se pudo conectar" al mismo tiempo para siempre.
+    expect(screen.queryByText(/No se pudo buscar en iTunes/)).not.toBeInTheDocument();
   });
 });

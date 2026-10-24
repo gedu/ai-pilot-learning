@@ -21,6 +21,12 @@ describe('filterPodcasts', () => {
     expect(filterPodcasts([ai, design], '')).toEqual([ai, design]);
   });
 
+  // Un término de sólo espacios cuenta como "sin término": el usuario borró la
+  // caja y quedó un espacio. Filtrar por '   ' no tiene que dejar la lista vacía.
+  it('keeps everything when the term is only spaces', () => {
+    expect(filterPodcasts([ai, design], '   ')).toEqual([ai, design]);
+  });
+
   it('keeps the podcast whose title matches the term', () => {
     expect(filterPodcasts([ai, design], 'daily')).toEqual([ai]);
   });
