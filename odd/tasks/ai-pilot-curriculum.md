@@ -132,3 +132,32 @@ L6. Observed while proving step 08's claim (swap one container line to the fake
     Consequence: step 10 must cover the empty state, and its prompt must ask for it
     explicitly; the swap itself becomes step 10's exercise for seeing it happen
     without touching the network.
+L7. T2-T4 evidence (app commits, one per step, each tagged): step-01 `154601a`,
+    step-02 `9eb375a`, step-03 `c64d97d`, step-04 `b224313`, step-05 `3c46ed0`,
+    step-06 `0a68cd5`, step-07 `04db128`, step-08 `5a16dd1`, step-09 `16567e9`,
+    step-10 `9057b5e`. Screenshots commit `c3f4f4d` (10 expected.png + pattern.png,
+    captured from detached worktrees of each tag). Counts by tag, re-run after the
+    fact: 1/3/8/15/21/24/30/34/38/46 passing.
+
+L8. Behaviour checks that were not test-only: browser runs through Playwright for
+    steps 03/05/06/08/09/10, including live iTunes searches, and the four step-10
+    states captured with the network cut, aborted, emptied and filled. Mutation
+    probes: removing the singleton `if` fails exactly the two identity tests;
+    replacing the loose-filter guard fails three tests; replacing searchNow with a
+    no-op fails the Enter test (after that test was rewritten with fake timers,
+    because with real timers it passed while Enter did nothing).
+
+L9. T5/T6 done. T7 evidence: fresh clone of the repo installed with `npm install`
+    (exit 0, no audit errors reported in log) and, at every one of the ten tags,
+    `npx vitest run` and `npm run build` both succeeded (counts as in L7). An
+    independent verify pass over docs vs each tag found 4 claims that would mislead
+    a beginner and 4 minor ones; all fixed in `19de510` and re-checked by hand.
+
+L10. Open, needs a user decision (destructive git): the fixed code comments exist
+     only on the branch tip. Tags step-06/07/08 still carry the `isTypingAhead`
+     comment naming an identifier that does not exist, and tag step-08 still says
+     the repository is chosen "in main.tsx" instead of app/container.ts. Fixing them
+     at the tag requires rewriting two local commits and moving those tags; nothing
+     is published (origin/main is still the initial commit), but history rewrite plus
+     tag moves is a destructive operation and was blocked by policy pending explicit
+     authorization.
