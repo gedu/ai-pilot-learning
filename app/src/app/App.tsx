@@ -1,22 +1,43 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { filterPodcasts } from '../application/filterPodcasts';
-import { fakePodcasts } from '../infrastructure/fakePodcasts';
+import { searchITunesPodcasts } from '../infrastructure/itunesRepository';
+import type { Podcast } from '../domain/Podcast';
 import { PodcastCard } from '../ui/PodcastCard';
 import { SearchInput } from '../ui/SearchInput';
 
+/** Lo que buscamos apenas abre la app. El paso 06 hace que esto lo maneje el usuario. */
+const DEFAULT_TERM = 'inteligencia artificial';
+
 /**
- * La pantalla principal.
+ * Paso 05: los datos ya no están escritos a mano, vienen de iTunes.
  *
- * Paso 01: sólo el nombre, para confirmar que el proyecto levanta.
- * Paso 02: la home completa — título, searchbox y aviso de "todavía no buscamos".
- * Paso 03: la lista de resultados, con datos mock escritos a mano.
- * Paso 04: la caja filtra la lista. La regla del filtro NO vive acá: vive en
- *          application/filterPodcasts.ts, que tiene sus propios tests. Acá sólo
- *          la llamamos. UI delgada, lógica en un solo lugar.
+ * La caja todavía no busca: escribe y filtra lo que ya descargamos
+ * (filterPodcasts sigue haciendo eso). Disparar una búsqueda nueva por cada
+ * letra que se escribe es el paso 06 — y tiene su propio problema que resolver
+ * (haríamos 20 llamadas por palabra).
  */
 export function App() {
   const [term, setTerm] = useState('');
-  const results = filterPodcasts(fakePodcasts, term);
+  const [podcasts, setPodcasts] = useState<Podcast[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    searchITunesPodcasts(DEFAULT_TERM)
+      .then((results) => {
+        if (!cancelled) setPodcasts(results);
+      })
+      .catch((cause: Error) => {
+        if (!cancelled) setError(cause.message);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const results = filterPodcasts(podcasts, term);
 
   return (
     <main className="page">
@@ -24,6 +45,8 @@ export function App() {
       <p className="subtitle">Buscá podcasts de IA — hecho paso a paso con IA.</p>
 
       <SearchInput value={term} onChange={setTerm} />
+
+      {error && <p className="error">{error}</p>}
 
       <ul className="results" aria-label="Resultados">
         {results.map((podcast) => (
