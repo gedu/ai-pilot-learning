@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { filterPodcasts } from '../application/filterPodcasts';
-import { searchITunesPodcasts } from '../infrastructure/itunesRepository';
+import { searchPodcasts } from './container';
 import type { Podcast } from '../domain/Podcast';
 import { PodcastCard } from '../ui/PodcastCard';
 import { SearchInput } from '../ui/SearchInput';
@@ -34,13 +34,13 @@ export function App() {
   const debouncedTerm = useDebouncedValue(term, 300);
   const [podcasts, setPodcasts] = useState<Podcast[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [searching, setSearching] = useState(false);
+  /** De qué término son LOS datos que tenemos en pantalla ahora mismo. */
+  const [settledTerm, setSettledTerm] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
 
-    setSearching(true);
-    searchITunesPodcasts(debouncedTerm)
+    searchPodcasts(debouncedTerm)
       .then((results) => {
         if (!cancelled) {
           setPodcasts(results);
@@ -51,7 +51,9 @@ export function App() {
         if (!cancelled) setError(cause.message);
       })
       .finally(() => {
-        if (!cancelled) setSearching(false);
+        // Marcamos de qué término ya tenemos respuesta. Con esto "Buscando…" se
+        // calcula sola (derivada abajo) en vez de encenderse y apagarse a mano.
+        if (!cancelled) setSettledTerm(debouncedTerm);
       });
 
     // Si cambió el término mientras esta llamada estaba en el aire, tiramos abajo
@@ -65,6 +67,10 @@ export function App() {
     term.trim() === debouncedTerm.trim()
       ? podcasts
       : filterPodcasts(podcasts, term);
+
+  // "Buscando…" es una cuenta, no un estado: pedimos algo distinto de lo que ya
+  // tenemos en pantalla. Así no hay que acordarse de apagar un boolean en tres caminos.
+  const searching = settledTerm !== debouncedTerm;
 
   return (
     <main className="page">

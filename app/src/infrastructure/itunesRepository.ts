@@ -1,4 +1,5 @@
 import { getAppConfig } from '../config/appConfig';
+import type { PodcastSearchPort } from '../domain/ports/PodcastSearchPort';
 import type { Podcast } from '../domain/Podcast';
 
 /**
@@ -59,3 +60,14 @@ function toPodcast(result: ITunesResult): Podcast {
     episodeCount: result.trackCount,
   };
 }
+
+/**
+ * PASO 08: iTunes se presenta como quien cumple la promesa del puerto.
+ *
+ * Esta línea es el "enchufe". `searchITunesPodcasts` ya tenía la firma que pedía
+ * `PodcastSearchPort`, así que alcanzarla alcanza. Nada de arriba cambia si mañana
+ * la música viene de Spotify o de un archivo JSON.
+ */
+export const itunesPodcastRepository: PodcastSearchPort = {
+  search: searchITunesPodcasts,
+};
