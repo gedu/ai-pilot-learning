@@ -17,12 +17,12 @@ describe('useDebouncedValue', () => {
     });
 
     rerender({ value: 'ai' });
-    expect(result.current).toBe('a');
+    expect(result.current[0]).toBe('a');
 
     act(() => {
       vi.advanceTimersByTime(300);
     });
-    expect(result.current).toBe('ai');
+    expect(result.current[0]).toBe('ai');
   });
 
   it('counts from the LAST change, not from the first one', () => {
@@ -44,6 +44,19 @@ describe('useDebouncedValue', () => {
       vi.advanceTimersByTime(300);
     });
 
-    expect(result.current).toBe('iai');
+    expect(result.current[0]).toBe('iai');
   });
 });
+
+  it('searchNow() skips the wait entirely', () => {
+    const { result, rerender } = renderHook(({ value }) => useDebouncedValue(value, 300), {
+      initialProps: { value: '' },
+    });
+
+    rerender({ value: 'react native' });
+    act(() => {
+      result.current[1]();
+    });
+
+    expect(result.current[0]).toBe('react native');
+  });

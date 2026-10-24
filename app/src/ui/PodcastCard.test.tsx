@@ -36,4 +36,20 @@ describe('PodcastCard', () => {
 
     expect(screen.queryByText(/episodios/)).not.toBeInTheDocument();
   });
+
+  // Paso 10: "1 episodios" se lee mal. En español el singular es "episodio".
+  it('says "1 episodio", not "1 episodios"', () => {
+    render(<PodcastCard podcast={{ ...podcast, episodeCount: 1 }} />);
+
+    expect(screen.getByText('1 episodio')).toBeInTheDocument();
+    expect(screen.queryByText('1 episodios')).not.toBeInTheDocument();
+  });
+
+  // Paso 10: si la fuente no mandó foto, no mostramos un ícono roto.
+  it('falls back to a placeholder when there is no image', () => {
+    render(<PodcastCard podcast={{ ...podcast, imageUrl: '' }} />);
+
+    const cover = screen.getByRole('img', { name: 'Portada de The AI Daily Brief' });
+    expect(cover).toHaveAttribute('src', '/cover-empty.svg');
+  });
 });
