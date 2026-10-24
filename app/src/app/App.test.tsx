@@ -21,18 +21,33 @@ describe('App', () => {
   });
 
   // Paso 03: la lista ya se pinta, con datos mock escritos a mano.
-  // El aviso de "todavía no buscamos" se va: ahora siempre hay algo para mirar.
   it('lists the mock podcasts', () => {
     render(<App />);
 
     expect(screen.getByText('The AI Daily Brief')).toBeInTheDocument();
     expect(screen.getByText('Practical AI')).toBeInTheDocument();
-    expect(screen.queryByText('Escribí algo arriba para empezar a buscar.')).not.toBeInTheDocument();
   });
 
   it('labels the results so a screen reader knows what the list is', () => {
     render(<App />);
 
     expect(screen.getByRole('list', { name: 'Resultados' })).toBeInTheDocument();
+  });
+
+  // Paso 04: la caja ya filtra la lista, usando la función pura que testeamos
+  // aparte en application/filterPodcasts.test.ts.
+  it('filters the list as the user types', async () => {
+    render(<App />);
+    const user = await import('@testing-library/user-event').then((m) =>
+      m.userEvent.setup(),
+    );
+
+    await user.type(
+      screen.getByRole('textbox', { name: 'Buscar podcasts' }),
+      'practical',
+    );
+
+    expect(screen.getByText('Practical AI')).toBeInTheDocument();
+    expect(screen.queryByText('The AI Daily Brief')).not.toBeInTheDocument();
   });
 });

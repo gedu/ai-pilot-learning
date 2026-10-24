@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { filterPodcasts } from '../application/filterPodcasts';
 import { fakePodcasts } from '../infrastructure/fakePodcasts';
 import { PodcastCard } from '../ui/PodcastCard';
 import { SearchInput } from '../ui/SearchInput';
@@ -8,11 +9,14 @@ import { SearchInput } from '../ui/SearchInput';
  *
  * Paso 01: sólo el nombre, para confirmar que el proyecto levanta.
  * Paso 02: la home completa — título, searchbox y aviso de "todavía no buscamos".
- * Paso 03: la lista de resultados, con datos mock escritos a mano. La caja escribe
- *          y la lista no se filtra todavía: eso es el paso 06.
+ * Paso 03: la lista de resultados, con datos mock escritos a mano.
+ * Paso 04: la caja filtra la lista. La regla del filtro NO vive acá: vive en
+ *          application/filterPodcasts.ts, que tiene sus propios tests. Acá sólo
+ *          la llamamos. UI delgada, lógica en un solo lugar.
  */
 export function App() {
   const [term, setTerm] = useState('');
+  const results = filterPodcasts(fakePodcasts, term);
 
   return (
     <main className="page">
@@ -22,7 +26,7 @@ export function App() {
       <SearchInput value={term} onChange={setTerm} />
 
       <ul className="results" aria-label="Resultados">
-        {fakePodcasts.map((podcast) => (
+        {results.map((podcast) => (
           <li key={podcast.id}>
             <PodcastCard podcast={podcast} />
           </li>
