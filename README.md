@@ -9,7 +9,7 @@ Nada de proyectos gigantes que paralizan: cada paso es **un prompt**, **un resul
 **Para quién:** alguien que hizo un par de cursos, nunca programó en serio, y tiene
 Claude/ChatGPT pero no sabe qué pedirle.
 
-**Qué vamos a construir:** [Pod Search](https://localhost:5173) 🔎 — un buscador de
+**Qué vamos a construir:** **Pod Search** 🔎 — un buscador de
 podcasts de IA que usa la [iTunes Search API](https://performance-partners.apple.com/search-api)
 (gratis, sin API key, sin backend).
 
