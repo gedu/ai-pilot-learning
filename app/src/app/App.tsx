@@ -1,76 +1,25 @@
-import { useEffect, useState } from 'react';
-import { filterPodcasts } from '../application/filterPodcasts';
-import { searchPodcasts } from './container';
-import type { Podcast } from '../domain/Podcast';
-import { PodcastCard } from '../ui/PodcastCard';
+import { useState } from 'react';
 import { SearchInput } from '../ui/SearchInput';
+import { PodcastCard } from '../ui/PodcastCard';
 import { useDebouncedValue } from '../ui/useDebouncedValue';
-
-/** Lo que buscamos apenas abre la app, para no mostrar una pantalla vacía. */
-const INITIAL_TERM = 'inteligencia artificial';
+import { INITIAL_TERM, usePodcastSearch } from './usePodcastSearch';
 
 /**
- * Paso 06: lo que escribís busca de verdad en iTunes.
+ * La pantalla principal. Después del paso 09 esto es SOLO presentación: no hay
+ * fetch, no hay reglas, no hay estados de carga. Todo eso se fue a
+ * `usePodcastSearch` (la lógica) y a `application/` (las reglas puras).
  *
- * Dos capas a propósito, y vale la pena entenderlas:
- *
- *  1. LA RED (lenta): buscamos en iTunes recién 300ms después de tu última tecla
- *     (useDebouncedValue). Escribir "inteligencia" son 12 teclas = 1 sola llamada.
- *  2. LA PANTALLA (instantánea): mientras todavía estás escribiendo y la respuesta
- *     nueva no llegó, filtramos localmente lo que ya tenemos (filterPodcasts), para
- *     que la lista reaccione al toque en vez de mostrar datos viejos sin filtrar.
- *
- *     Ojo con el `isTypingAhead`: filtrar SIEMPRE localmente parece más simple, pero
- *     esconde resultados. iTunes coincide de forma laxa (busca también en autor y en
- *     otras cosas), así que un resultado puede no tener el término en el título. Si lo
- *     filtramos igual, desaparece aunque Apple lo haya traído. Por eso sólo filtramos
- *     mientras el texto SUPERA a lo último que mandamos a buscar.
- *
- * Si algún día los resultados desaparecen al escribir, revisá en qué capa estás:
- * `term` es lo que tecleaste, `debouncedTerm` es lo que ya mandamos a iTunes.
+ * La historia de la app, que se puede recorrer con `git checkout step-NN`:
+ *  01 el nombre, para ver que levanta · 02 la home y la caja de texto
+ *  03 la lista con datos mock          · 04 el filtro, con sus propios tests
+ *  05 datos reales de iTunes           · 06 buscar mientras escribís (debounce)
+ *  07 la URL en un config singleton    · 08 hexagonal: la UI deja de conocer iTunes
+ *  09 este refactor: App.tsx delgado   · 10 loading, vacío, error, detalles de UX
  */
 export function App() {
   const [term, setTerm] = useState(INITIAL_TERM);
   const debouncedTerm = useDebouncedValue(term, 300);
-  const [podcasts, setPodcasts] = useState<Podcast[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  /** De qué término son LOS datos que tenemos en pantalla ahora mismo. */
-  const [settledTerm, setSettledTerm] = useState<string | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    searchPodcasts(debouncedTerm)
-      .then((results) => {
-        if (!cancelled) {
-          setPodcasts(results);
-          setError(null);
-        }
-      })
-      .catch((cause: Error) => {
-        if (!cancelled) setError(cause.message);
-      })
-      .finally(() => {
-        // Marcamos de qué término ya tenemos respuesta. Con esto "Buscando…" se
-        // calcula sola (derivada abajo) en vez de encenderse y apagarse a mano.
-        if (!cancelled) setSettledTerm(debouncedTerm);
-      });
-
-    // Si cambió el término mientras esta llamada estaba en el aire, tiramos abajo
-    // su respuesta: si no, una búsqueda vieja podría pisar a la nueva.
-    return () => {
-      cancelled = true;
-    };
-  }, [debouncedTerm]);
-
-  const results =
-    term.trim() === debouncedTerm.trim()
-      ? podcasts
-      : filterPodcasts(podcasts, term);
-
-  // "Buscando…" es una cuenta, no un estado: pedimos algo distinto de lo que ya
-  // tenemos en pantalla. Así no hay que acordarse de apagar un boolean en tres caminos.
-  const searching = settledTerm !== debouncedTerm;
+  const { results, status, error } = usePodcastSearch(term, debouncedTerm);
 
   return (
     <main className="page">
@@ -79,8 +28,8 @@ export function App() {
 
       <SearchInput value={term} onChange={setTerm} />
 
-      {error && <p className="error">{error}</p>}
-      {searching && <p className="hint">Buscando…</p>}
+      {status === 'failed' && <p className="error">{error}</p>}
+      {status === 'searching' && <p className="hint">Buscando…</p>}
 
       <ul className="results" aria-label="Resultados">
         {results.map((podcast) => (

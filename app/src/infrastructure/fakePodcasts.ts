@@ -1,13 +1,24 @@
 import type { Podcast } from '../domain/Podcast';
+import type { PodcastSearchPort } from '../domain/ports/PodcastSearchPort';
 
 /**
- * Datos falsos escritos a mano, con portadas locales (los SVG de `public/`).
+ * Datos escritos a mano, con portadas locales (los SVG de `public/`), y un
+ * repositorio falso que cumple la misma promesa que iTunes.
  *
- * El paso 03 existe para ver la lista renderizada SIN depender de ninguna API ni
- * de internet: si esto anda y el paso 05 no, el problema es el fetch, no la pantalla.
+ * PASO 03 lo creó como simple arreglo para pintar la lista sin depender de
+ * nadie. PASO 08 lo ascendió: ahora también implementa `PodcastSearchPort`, así
+ * que es intercambiable con iTunes.
+ *
+ * La prueba de que la arquitectura hexagonal no es decorativa: para correr la app
+ * entera sin internet, en `app/container.ts` cambiás UNA línea…
+ *
+ *   createSearchPodcasts(itunesPodcastRepository)   // datos reales
+ *   createSearchPodcasts(fakePodcastRepository)     // datos locales, sin red
+ *
+ * …y App.tsx, usePodcastSearch y los componentes no se enteran.
  *
  * Nota honesta: los títulos son de podcasts reales, pero las tapas son dibujos
- * nuestros. En el paso 05 las fotos reales llegan de iTunes.
+ * nuestros (los SVG de `public/`); las fotos reales llegan de iTunes en el paso 05.
  */
 export const fakePodcasts: Podcast[] = [
   {
@@ -32,3 +43,16 @@ export const fakePodcasts: Podcast[] = [
     episodeCount: 379,
   },
 ];
+
+export const fakePodcastRepository: PodcastSearchPort = {
+  async search(term) {
+    // Filtramos acá y no con filterPodcasts a propósito: un adaptador falso tiene
+    // que comportarse como el de verdad, o los tests mienten.
+    const needle = term.trim().toLowerCase();
+    if (needle === '') return [];
+
+    return fakePodcasts.filter((podcast) =>
+      `${podcast.title} ${podcast.author}`.toLowerCase().includes(needle),
+    );
+  },
+};

@@ -124,3 +124,11 @@ L5. Verified facts, not assumptions: iTunes Search API returns 200 with
     Architecture, 09 React, 10 TypeScript, 15 IA-Driven Development, 19 AI Orchestration
     Patterns, 20 From Token to Agent; Chrome, Playwright chromium and `agent-device` are
     installed locally, so per-step screenshots are reproducible.
+L6. Observed while proving step 08's claim (swap one container line to the fake
+    repository): the screen goes blank, because the initial term
+    "inteligencia artificial" matches none of the three local fixtures. The fake
+    repository behaves correctly (empty result); the app has no empty state, so the
+    user sees nothing and cannot tell "no results" from "broken". Reverted the swap.
+    Consequence: step 10 must cover the empty state, and its prompt must ask for it
+    explicitly; the swap itself becomes step 10's exercise for seeing it happen
+    without touching the network.
