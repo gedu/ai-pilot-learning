@@ -1,15 +1,16 @@
+import { getAppConfig } from '../config/appConfig';
 import type { Podcast } from '../domain/Podcast';
 
 /**
  * Busca podcasts reales en la iTunes Search API.
  *
- * Paso 05: acá vive la URL, dura y fea. En el paso 07 la movemos a un archivo de
- *          config y esto pasa a leerla de ahí.
+ * Paso 05: acá nació la URL, dura y adentro de este archivo.
+ * Paso 07: la URL se fue a config/appConfig.ts y la pedimos con getAppConfig().
+ *          O sea: este archivo ya no sabe CUÁL es la URL, sólo a quién pedírsela.
  *
  * La API es gratis, sin API key, y responde con `Access-Control-Allow-Origin: *`,
  * así que el browser la puede llamar directo: no hace falta backend ni proxy.
  */
-const ITUNES_SEARCH_URL = 'https://itunes.apple.com/search';
 
 /** La respuesta de Apple viene con sus propios nombres de campo; los traducimos acá. */
 interface ITunesResult {
@@ -21,10 +22,12 @@ interface ITunesResult {
 }
 
 export async function searchITunesPodcasts(term: string): Promise<Podcast[]> {
-  const url = new URL(ITUNES_SEARCH_URL);
+  // Pedimos la config en vez de tener la URL copiada acá: una sola fuente de verdad.
+  const config = getAppConfig();
+  const url = new URL(config.itunesSearchUrl);
   url.searchParams.set('media', 'podcast');
   url.searchParams.set('term', term);
-  url.searchParams.set('limit', '20');
+  url.searchParams.set('limit', String(config.searchResultLimit));
 
   let response: Response;
   try {
