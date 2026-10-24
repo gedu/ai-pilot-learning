@@ -72,3 +72,7 @@ Desde `app/`:
   test para que pase; arreglá el `if`.
 - **`searchITunesPodcasts` sigue con la URL copiada**: la IA creó el config pero no lo usó.
   Pedite que el repositorio lea `getAppConfig().itunesSearchUrl`.
+- **Comparaste contra `git checkout step-07` y el comentario de `App.tsx` habla de
+  `isTypingAhead`**: ese nombre no existe en ningún archivo, es un comentario viejo que se
+  corrigió después. Lo que hace el código es la condición de al lado:
+  `term.trim() === debouncedTerm.trim()`.

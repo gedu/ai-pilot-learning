@@ -67,3 +67,9 @@ cambia nada visible.
   sólo puede importar tipos de `domain/`.
 - **No hay test del caso de uso**: sin un test que use un repositorio falso, no tenés ninguna
   prueba de que el puerto sirva para algo.
+- **Leíste en el comentario de `searchPodcasts.ts` que el repositorio "se elige afuera (en
+  `main.tsx`)"**: en este tag el comentario está viejo. Se elige en `src/app/container.ts`, y
+  ese archivo es justamente la pregunta de este paso. `main.tsx` sólo monta `<App />`.
+- **En el comentario de `App.tsx` aparece `isTypingAhead`**: ese nombre no existe en ningún
+  archivo; es un comentario viejo corregido después. Lo real es la condición de al lado:
+  `term.trim() === debouncedTerm.trim()`.

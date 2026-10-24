@@ -62,3 +62,7 @@ Desde `app/`:
   `useEffect` (`return () => clearTimeout(timer)`), así que cuenta desde la primera letra.
 - **Ves resultados del término anterior**: la respuesta vieja pisó a la nueva; falta el
   `cancelled` del cleanup del effect.
+- **Comparaste contra `git checkout step-06` y el comentario de `App.tsx` habla de
+  `isTypingAhead`**: ese nombre no existe en ningún archivo, es un comentario que quedó viejo
+  (se corrigió más adelante). Lo que hace el código es la condición de al lado:
+  `term.trim() === debouncedTerm.trim()`. No busques la variable, no está.
