@@ -43,7 +43,7 @@ Después `git checkout main` (o `git checkout -` ) y seguís.
 
 | # | Etapa | Qué vas a ver funcionando | Capítulo del libro |
 |---|-------|---------------------------|--------------------|
-| 01 | 🏗️ [El proyecto](steps/step-01-proyecto/) | `npm run dev` abre una página en el browser | 09 · 10 |
+| 01 | 🏗️ [El proyecto](steps/step-01-proyecto/) | `npm run dev` abre una página en el browser | 10 (TypeScript) |
 | 02 | 🏠 [La home](steps/step-02-home/) | Título y un searchbox que todavía no hace nada | 01 (atomic design) |
 | 03 | 📋 [Lista con datos mock](steps/step-03-lista-mock/) | 3 podcasts escritos a mano, en pantalla | 01 (atomic design) |
 | 04 | 🧪 [Tests](steps/step-04-tests/) | Un test que falla y lo hacemos pasar (TDD) | 01 (TDD) |
