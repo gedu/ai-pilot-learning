@@ -161,3 +161,14 @@ L10. Open, needs a user decision (destructive git): the fixed code comments exis
      is published (origin/main is still the initial commit), but history rewrite plus
      tag moves is a destructive operation and was blocked by policy pending explicit
      authorization.
+
+L11 · Cierre de entrega (evidencia, no interpretación).
+- Los comentarios viejos de los tags 06-08 se resolvieron SIN rewrite, como pidio el usuario
+  ("por arriba en un nuevo commit"): 23632da agrega la nota al lector en los tres README.
+- Revision de los propios tests (Stryker en copia /tmp, el repo no gano dependencias):
+  69.9% -> 78.7% (122/155). c3a6305. 46 -> 54 tests; los tags conservan sus cuentas.
+- Slice: se paso el borde de ~400 lineas hace rato (6370 lineas authoradas, 19 commits). La
+  estrategia de entrega acordada fue un solo PR del curso completo: cada paso ya es su propio
+  commit taggeado adentro, que es la unidad que lee el que aprende.
+- Publicado: rama + los 11 tags en origin; PR #1 contra main con merge commit (squash/rebase
+  ROMPERIA la correspondencia tag->SHA, que es la promesa del curso).
