@@ -116,3 +116,69 @@ esa misma sesion: no afirmar sin corrida. Peor lugar posible para violarla: un d
 enseña a no confiar ciegamente en la IA. El fix estructural no es "fijate mas": es que cada
 frase de "Juga con esto" cita un archivo+linea o dice "checklist para mirar", y T4 re-verifica
 cada afirmacion contra disco antes del PR.
+
+**L8** · T1 corrida del paso 05 (`mvp36597-5-zi3g`, sobre `s05/` = árbol de `step-04`).
+**Verificado en disco**: 4 modificados (`App.tsx`, `App.test.tsx`, `SearchInput.tsx`,
+`index.css`) + 2 nuevos (`iTunesRepository.ts/.test.ts`); `package.json` sin diff; suite 15 →
+**29** en 4 archivos; `AbortController` presente (2 apariciones en `App.tsx`); `<form>` +
+`<button type=submit>` en `SearchInput.tsx`; traduce campos de Apple (`collectionName`,
+`artistName`, `artworkUrl100`) con `domain/Podcast.ts` sin tocar (0 cambios). Tres hallazgos
+que van al doc del paso:
+(i) **nombre de archivo**: la IA creó `iTunesRepository.ts` (I mayúscula) donde el curso usa
+`itunesRepository.ts`; adentro funciona, rompe la comparación contra `git checkout step-05`.
+Probe de FS en esta máquina: **case-insensitive** (escribir `cs-probe.txt` y `cs-PROBE.txt`
+deja un solo archivo, con el segundo contenido). Por eso el `prompt.md` del paso nombra el
+archivo exacto.
+(ii) agregó **botón Buscar + Enter**: contado en los tags del curso, `step-05` tiene 0
+ocurrencias de `<form`/`<button` y `step-10` tiene 3. El botón del curso nace en el paso 10.
+(iii) agregó `AbortController`: 0 ocurrencias en los tags step-05/06/10 del curso. "Que
+funcione de verdad" invita a la IA a adelantarse tres pasos.
+**Nota antifabricación**: esto contradice lo que afirmé en L7 (`axios`, borrar `PodcastCard`,
+término hardcodeado). Las tres son falsas: `package.json` sin diff, `PodcastCard.tsx` sin
+tocar, y `App.tsx` usa el término que escribe el usuario. La corrida real es buena y alcanza;
+hace falta inventar una peor.
+
+**L9** · T1 corrida del paso 10 (`mvp3ld46-7-ku35`, sobre `s10/` = árbol de `step-09`).
+**Verificado en disco**: 9 modificados + 4 nuevos (`domain/errors.ts` con 3 clases de error,
+`ui/SearchStatus.tsx`, `ui/PodcastCover.tsx/.test.tsx`); `package.json` sin diff; suite 38 →
+**58** (10 archivos); `es-AR` en `PodcastCard.tsx:39`; `prefers-reduced-motion` en
+`index.css`. El hallazgo más fuerte del experimento entero: **modificó un test que ya
+pasaba** — `App.test.tsx:86` pasó de `getByRole('list')` a `await findByRole('list')`. Nadie
+le pidió tocar tests; "pulí esta app" lo habilitó a mover el arco de la prueba. De ahí que
+`docs/prompting.md` ahora mande a mirar el diff de los `.test.tsx` y de `package.json`.
+Validación del experimento: en el tag `step-09` la carpeta `steps/step-10-detalles-ux/` es un
+placeholder de 105 bytes **sin `prompt.md`**, así que el worker no pudo leer la respuesta.
+
+**L10** · Comando falso que escribí y corregí antes de shipping: afirmé que `git clean -nd`
+muestra el `dist/` que deja la IA. **Falso**: `dist/` está gitignored, así que `clean -nd`
+enumera los archivos buenos nuevos y no el dist. Comandos correctos, corridos en el árbol de
+experimento: `git status --ignored --short --untracked-files=all` (sí muestra
+`!! s10/app/dist/...`) y `git ls-files --others --exclude-standard` (los nuevos de la IA).
+La política de seguridad bloqueó mi intento de correr la variante destructiva de `clean` en
+el scratch: bien bloqueado. Regla estructural: **todo comando que entra a un doc se corre
+acá primero y se cita su salida** (este repo ya lo decía en `_FORMATO.md`: "todo lo que esté
+escrito acá fue ejecutado"; yo lo violé igual).
+
+**L11** · Presupuesto de lectura medido, no asumido: los READMEs obligatorios del curso van
+de 357 a 630 palabras (~1,8–3,2 min). El techo de 4 minutos de `_FORMATO.md` no estaba
+definiendo el total con sección opcional, así que se precisó la regla: 4 min para lo
+obligatorio, 3 min propios para "Jugá con esto".
+
+**L12** · T1 cerrado: 4 de 4 corridas. La del paso 01 (`mvp35zeb-4-539s`, sobre `s01/` =
+arbol de `step-00`, o sea **sin `app/`**). **Verificado en disco**: `git status` muestra un
+unico `?? s01/app/` (14 archivos nuevos); `package.json` con `dependencies: {}` y
+`devDependencies: {}` y `"test": "node --test ..."`; grep de `react|vite` en json/js de s01:
+**cero** coincidencias; `node --test` → 21 pass / 0 fail. El curso paso 01, en el mismo
+campo, declara React + Vite + TS + Vitest + Testing Library. El hallazgo pedagogico: un
+pedido de dos frases elige framework, lenguaje, runner, forma de servir y proveedor de datos
+(seis decisiones que el curso reparte en diez pasos).
+**CONFOUND DECLARADO**: a los cuatro workers se les prohibio correr `npm install` (para no
+contaminar ni tardar). Un alumno real no tiene esa restriccion, asi que el stack sin React
+es parcialmente artefacto de mi consigna. Por eso el doc del paso 01 lo dice en el propio
+texto ("una salvedad honesta de esa corrida") y enmarca el ejercicio en lo que si vale: que
+hay una decision de stack escondida, no cual salio. Los workers tampoco eran Claude/ChatGPT
+en chat: son el mismo harness con herramientas de archivo (ver L5).
+
+**L13** · Presupuesto final medido de las 4 secciones nuevas: paso 01 +355, paso 05 +387,
+paso 06 +328, paso 10 +429 palabras (techo propio: 600). Lo obligatorio de esos READMEs no
+se toco: 432 / 446 / 502 / 503.

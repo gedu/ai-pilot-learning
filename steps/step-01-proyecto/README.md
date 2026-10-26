@@ -49,6 +49,42 @@ Desde la carpeta `app/`:
 3. `npm run dev` → en la terminal aparece `VITE v8.3.5 ready` y `Local: http://localhost:5173/`.
    Abrí esa dirección: tenés que ver "Pod Search" sobre fondo negro. `Ctrl+C` lo apaga.
 
+## Jugá con esto (opcional, 10 minutos)
+
+Ya tenés el paso 01 commiteado. Probá pedirlo frío, en una carpeta aparte o en otra
+ventana de la IA, así:
+
+```
+quiero una app web para buscar podcasts de IA. Empezá de cero y dejame algo que pueda
+abrir en el navegador
+```
+
+Y fijate **qué stack eligió**. En la corrida de prueba salió una app de JavaScript plano,
+sin React ni Vite, con su propio servercito de Node y `dependencies: {}` vacío: 14 archivos
+y 21 tests que corrían con `node --test`. El paso 01 del curso, en cambio, te hace declarar
+React, Vite, TypeScript, Vitest y Testing Library.
+
+Una salvedad honesta de esa corrida: le habíamos prohibido instalar paquetes, así que parte
+de esa decisión fue por eso y no sólo por el pedido. En tu corrida es probable que salga
+React + Vite igual, porque es el default hoy. **Lo que vale del ejercicio no es el stack que
+salió: es que haya uno.** Un pedido de dos frases decidió framework, language, runner de
+tests, forma de servir y hasta el proveedor de datos — seis decisiones que en el curso están
+repartidas en diez pasos.
+
+- **Leé el `package.json` que te generó.** ¿Qué hay en `dependencies` y en `devDependencies`?
+   Esas son las decisiones que tomaste sin saber que las estabas tomando.
+- **Fijate cómo abrió la app**: ¿te dijo `npm run dev`? ¿otro comando? ¿un `index.html` a
+   doble clic? En la corrida salieron las tres opciones mezcladas.
+- **Contá los archivos y los tests.** En la corrida: 14 archivos, 21 tests de cosas que
+   nadie pidió (escapear HTML, catálogo de respaldo, orden por cantidad de episodios).
+   Todo razonable; todo tuyo para mantener.
+- **Si salió otro stack y querés el del curso: no lo arregles, tiralo.** `git restore .`
+   para lo modificado, borrá los archivos nuevos, y pegá el `prompt.md`. No perdiste nada:
+   ahora sabés qué estaba decidiendo la IA en tu nombre.
+
+Este es el mejor ejercicio para hacer **los dos juntos**: primero el pedido de dos frases,
+después el `prompt.md` del paso. La diferencia entre las dos carpetas **es** la lección.
+
 ## Si algo no funciona
 
 - **`npm test` dice `no test files`** — Vitest no está configurado: mirá que
