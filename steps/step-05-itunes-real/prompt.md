@@ -1,4 +1,36 @@
-Copiá esto y pegalo tal cual en tu IA:
+# Paso 05 — tres formas de pedirlo
+
+Arrancá por el Starter y mirá qué hace la IA. Si se fue por las ramas, subí a Medium. Si
+querés que quede igual que `expected.png`, pegá el Advanced. Con Starter y Medium **no te
+comparas contra la foto**: ahí lo que se mira es qué decidió la IA por su cuenta (está al
+final). El camino del curso es el Advanced.
+
+## Starter — como se le pide a un amigo
+
+Copiá esto y pegalo tal cual:
+
+```
+hacé que la búsqueda funcione de verdad: que busque podcasts de IA en internet y muestre
+los resultados en la pantalla
+```
+
+## Medium — el comportamiento, sin decir cómo
+
+Copiá esto y pegalo tal cual:
+
+```
+En mi app de podcasts (React + Vite + TypeScript), la lista de hoy está escrita a mano y
+quiero que venga de verdad de internet: la iTunes Search API, que es gratis, no pide clave
+y el browser la puede llamar directo. Al abrir la app se busca un término y los resultados
+llenan las tarjetas que ya tenemos; los campos que devuelve Apple se traducen a nuestro
+modelo en un solo lugar, y la pantalla no se entera del cambio. Si la red falla, el
+usuario lee un mensaje en español y no una página en blanco. En los tests se simula la
+respuesta de Apple: nunca se sale a internet.
+```
+
+## Advanced — el prompt del curso
+
+Es el que reproduce `expected.md` y el tag `step-05`. Copiá esto y pegalo tal cual:
 
 ````
 Paso 5 de mi curso. "Pod Search" hoy muestra 3 podcasts mock escritos a mano. Hoy esos
@@ -45,3 +77,20 @@ Corré `npm test` y pegame el resultado. Al final explicame en 3 líneas qué hi
 Corré `npm test`: **21 passed** en 4 archivos. Después `npm run dev`: la pantalla se llena
 de podcasts reales con sus tapas. Si ves la caja roja de error, no es el fin del mundo:
 el camino de error está funcionando; pegale el error completo a la IA.
+
+## Qué mirar después de cada nivel
+
+- `git diff --stat`: ¿cuántos archivos nuevos y cuáles? En la corrida de prueba con este
+  mismo pedido salieron 2 nuevos y quedaron modificados `App.tsx`, `App.test.tsx`,
+  `SearchInput.tsx` e `index.css`, con `package.json` sin diff.
+- **Cómo se llama el archivo nuevo.** En la corrida de prueba creó `iTunesRepository.ts`,
+  con la `I` de iTunes en mayúscula; el curso usa `itunesRepository.ts`. Adentro funciona
+  igual, pero `git checkout step-05` ya no te junta las piezas y el `git diff` no compara
+  nada.
+- **Mirá si te agregó un botón**: `git diff app/src/ui/SearchInput.tsx` (desde la raíz
+  del repo, no desde `app/` — desde ahí la ruta no existe y no muestra nada). En la corrida
+  convirtió la caja en un `<form>` con botón Buscar, o sea hay que apretar Enter para
+  buscar. El curso pone el botón en el paso 10.
+- **Contá los tests y leé los nombres** (`npm test`): en la corrida pasaron de 15 a 29, y
+  entre los nuevos metió `AbortController` para cancelar la búsqueda anterior — nada en los
+  tags del curso lo tiene, eso llega en el paso 06/10.

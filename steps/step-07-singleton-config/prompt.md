@@ -1,4 +1,36 @@
-Copiá esto y pegalo tal cual en tu IA:
+# Paso 07 — tres formas de pedirlo
+
+Arrancá por el Starter y mirá qué hace la IA. Si se fue por las ramas, subí a Medium. Si
+querés que quede igual que `expected.png`, pegá el Advanced. Con Starter y Medium **no te
+compares contra la foto**: ahí lo que se mira es qué decidió la IA por su cuenta (está al
+final). El camino del curso es el Advanced.
+
+## Starter — como se le pide a un amigo
+
+Copiá esto y pegalo tal cual:
+
+```
+sacá la URL de iTunes que está escrita dentro del código y poné-la en un solo lugar del que la pidan todos
+```
+
+## Medium — el comportamiento, sin decir cómo
+
+Copiá esto y pegalo tal cual:
+
+```
+En mi app de podcasts (React + Vite + TypeScript, está en app/), la URL de iTunes está
+copiada a mano dentro del archivo que busca. La quiero en un archivo de configuración que
+cualquiera pueda pedir. Importe el comportamiento: si dos lugares distintos piden la config
+al mismo tiempo, tienen que recibir EXACTAMENTE la misma cosa, no dos copias parecidas; y
+nadie desde afuera tiene que poder cambiarle un valor. Escribí los tests junto con el
+código, y que el test pruebe la identidad (la misma instancia), no que los datos se
+parezcan: un test que sólo compara valores no detecta que te devuelvan una copia nueva en
+cada llamada.
+```
+
+## Advanced — el prompt del curso
+
+Es el que reproduce `expected.md` y el tag `step-07`. Copiá esto y pegalo tal cual:
 
 ```
 Necesito que saques la URL de iTunes que está escrita a mano adentro de
@@ -49,3 +81,18 @@ Al final explicame en 3 líneas qué es el `if` de `getAppConfig` y qué pasarí
 
 Cuando devuelva algo, corré `npx vitest run src/config` antes de aceptar nada: si no hay
 un test con `toBe`, el patrón no está probado y hay que pedírselo.
+
+## Qué mirar después de cada nivel
+
+- **El corazón del paso es el `if`**: preguntale a la IA qué pasa si dos lugares llaman a
+  la función de config al mismo tiempo, y leé el código: si crea el objeto siempre (sin un
+  `if` que lo frene), no hay singleton — hay una fábrica de copias. El README de este paso
+  te muestra el contraejemplo que el curso trae a propósito (`appConfigBroken.example.ts`).
+- **Leé el test, no sólo que pase**: `npx vitest run src/config`. ¿Comparó con `toBe`
+  (identidad) o con `toEqual` (parecido)? Con `toEqual`, la versión rota también pasa, y el
+  paso quedó vacío por dentro aunque esté verde.
+- `git diff --stat`: el Advanced toca el repositorio de iTunes para que pida la config. Si
+  el tuyo no lo tocó, la URL sigue copiada en dos lugares: ahora hay dos fuentes de verdad.
+- **Un pedido que dice "ponela en un archivo" no menciona el `if` nunca.** Si con el Starter
+  salió sin `if`, no es un error de la IA: es tu pedido sin esa frase. Agregala al Medium y
+  volvé. 

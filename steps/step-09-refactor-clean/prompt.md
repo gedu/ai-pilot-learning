@@ -1,4 +1,35 @@
-Copiá esto y pegalo tal cual en tu IA:
+# Paso 09 — tres formas de pedirlo
+
+Arrancá por el Starter y mirá qué hace la IA. Si se fue por las ramas, subí a Medium. Si
+querés que quede igual que `expected.png`, pegá el Advanced. Con Starter y Medium **no te
+compares contra la foto**: ahí lo que se mira es qué decidió la IA por su cuenta (está al
+final). El camino del curso es el Advanced.
+
+## Starter — como se le pide a un amigo
+
+Copiá esto y pegalo tal cual:
+
+```
+limpiá el componente principal de la app, quedó muy largo
+```
+
+## Medium — el comportamiento, sin decir cómo
+
+Copiá esto y pegalo tal cual:
+
+```
+En mi app de podcasts (React + Vite + TypeScript, está en app/), el componente principal
+mezcla presentación con toda la lógica de búsqueda. Quiero un refactor: se separa la lógica
+en su propio hook y el componente queda sólo con lo que se ve, pero NO cambia nada de lo que
+se ve ni lo que hacen los tests. Los tests que ya existen no se tocan ni un carácter: son la
+evidence de que nada cambió; si tenés ganas de cambiar uno, pará y avisame. Y el estado de
+la pantalla (buscando / con datos / falló) que sea derivado de una sola cuenta, no un
+montón de banderitas que pueden contradecirse.
+```
+
+## Advanced — el prompt del curso
+
+Es el que reproduce `expected.md` y el tag `step-09`. Copiá esto y pegalo tal cual:
 
 ```
 Hacé un REFACTOR de mi app React + TypeScript. Definición de refactor: cambia la estructura
@@ -51,3 +82,16 @@ siguiente.
 
 Cuando devuelva algo, corré `npm test` y compará la cantidad de tests con la que te dijo él:
 tienen que coincidir, y `App.test.tsx` no puede aparecer modificado en `git status`.
+
+## Qué mirar después de cada nivel
+
+- **Lo primero: `git diff --stat` y buscá `App.test.tsx`.** Si aparece, la IA tocó la vara
+  de medir. Un pedido de "limpiá" nunca dice "no toques los tests"; ese permiso no dato es
+  justamente lo que este paso entrena a pedir.
+- **Contá los tests antes y después** (`npm test`): mismo número y todos verdes. Si alguno
+  desapareció, el refactor "pasó los tests" achicándolos: eso no es verde, es silencio.
+- **El estado: ¿un valor o banderitas?** Si quedaron varios booleanos sueltos que pueden
+  darse a la vez ("buscando" y "falló" juntos), el refactor movió el código pero no mejoró
+  el diseño — y nadie se lo pidió porque el pedido tampoco lo decía.
+- `git diff --stat` también te dice si te cambió el estilo o agregó dependencias "de paso".
+  Un refactor que también renombra estética o sube librerías es dos cambios disfrazados.

@@ -108,8 +108,9 @@ Reglas de los tres niveles (importan, son el corazón del repo):
 5. **"Qué mirar después de cada nivel" es obligatorio**, y es un checklist de observación,
    no una promesa. Se pueden citar resultados medidos (corridas reales, registradas en
    `odd/tasks/`), pero con la fuente: "en la corrida de prueba salió X".
-6. El **largo** es presupuesto, no sugerencia: Starter 1-2 líneas, Medium 3-6, Advanced lo
-   que venía ocupando (293-663 palabras en los pasos actuales). Si Medium crece, está
+6. El **largo** es presupuesto, no sugerencia: Starter 1-2 líneas,
+   Medium 3-6 oraciones (~100-120 palabras, que envueltas son hasta 8 líneas), Advanced lo
+   que venía ocupando (293-663 palabras en los pasos actuales). Si Medium pasa de ahí, está
    haciendo el trabajo del Advanced.
 
 Reglas del prompt (aplican a los tres, sobre todo al Advanced):

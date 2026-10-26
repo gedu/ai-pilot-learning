@@ -1,4 +1,36 @@
-Copiá esto y pegalo tal cual en tu IA:
+# Paso 10 — tres formas de pedirlo
+
+Arrancá por el Starter y mirá qué hace la IA. Si se fue por las ramas, subí a Medium. Si
+querés que quede igual que `expected.png`, pegá el Advanced. Con Starter y Medium **no te
+compares contra la foto**: ahí lo que se mira es qué decidió la IA por su cuenta (está al
+final). El camino del curso es el Advanced.
+
+## Starter — como se le pide a un amigo
+
+Copiá esto y pegalo tal cual:
+
+```
+pulí esta app para que se sienta profesional: que uno entienda qué está pasando mientras
+busca, y que no quede fea cuando no encuentra nada o cuando falla
+```
+
+## Medium — el comportamiento, sin decir cómo
+
+Copiá esto y pegalo tal cual:
+
+```
+En mi app de podcasts (React + Vite + TypeScript, está en app/), la búsqueda ya funciona
+pero la pantalla no avisa nada. Quiero los cuatro momentos cubiertos, sin que puedan
+contradicirse: caja vacía (con aviso y los resultados ANTERIORES escondidos), buscando (un
+texto visible), sin resultados (aviso con el término y una salida), y error (mensaje legible
+con botón Reintentar que reintenta de verdad). Con la caja vacía no se llama a la red. Enter
+tiene que buscar al toque, sin esperar la espera de letras. Escribí los tests junto con el
+código, y no rompas la búsqueda que ya anda.
+```
+
+## Advanced — el prompt del curso
+
+Es el que reproduce `expected.md` y el tag `step-10`. Copiá esto y pegalo tal cual:
 
 ```
 Necesito que mi app React + TypeScript (Vite, Vitest) cubra los CUATRO estados de una pantalla
@@ -65,3 +97,21 @@ Explicame en 3 líneas por qué un solo `status` en vez de cuatro booleanos.
 
 Cuando devuelva algo, probá vos los cuatro estados a mano en el browser (caja vacía, escribiendo,
 un término imposible, y sin internet). Si falta alguno, pedilo por su nombre.
+
+## Qué mirar después de cada nivel
+
+- **La observación que vale el paso: ¿te tocó un test que ya pasaba?** `git diff --stat` y
+  mirá los `.test.tsx`. En la corrida de prueba con este mismo pedido, la IA modificó un
+  test existente (cambió un `getByRole` por `await findByRole`) para que su código pasara,
+  y la suite pasó de 38 a 58. Nadie le pidió tocar tests: "pulí" lo habilitó a mover el
+  arco. No está mal que lo haga; está mal que no lo veas.
+- **Contá los tests y leé los nombres**: 20 tests nuevos que nadie revisó son superficie
+  que ahora te toca mantener.
+- **Las cuatro escenas, a mano**: cargá la app y probá caja vacía, escribiendo, término sin
+  resultados (con la consola del navegador bloqueando la red podés simular el error). En
+  ninguna escena dos mensajes pueden convivir ("Buscando…" + error). Si conviven, el estado
+  son banderitas y no un valor: ese es justo el Advanced pidiéndole el `status` único.
+- En la corrida de prueba también creó archivos que nadie pidió (un archivo de errores de
+  dominio, componentes de estado) y no tocó `package.json`. Crear de más es normal; lo que
+  decidís vos es qué te queda. La "Jugá con esto" del README de este paso tiene la corrida
+  completa.
