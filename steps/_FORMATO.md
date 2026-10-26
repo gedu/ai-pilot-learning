@@ -165,6 +165,20 @@ instancia, no dos objetos parecidos.>
 <qué hacer: revisar, pedir el arreglo, o `git checkout step-NN` para comparar.>
 ```
 
+### Cómo se relacionan "Qué mirar" y "Jugá con esto"
+
+Dos checklists, funciones distintas, y convienen cortos los dos:
+
+- **`## Qué mirar después de cada nivel`** vive en el `prompt.md` y acompaña al pedido: qué
+  observar en la salida de CADA nivel (Starter vs Medium vs Advanced).
+- **`## Jugá con esto`** vive en el `README.md` y cuenta la **corrida de prueba completa**
+  del paso: qué hizo la IA de punta a punta, con sus números.
+
+Hoy sólo cuatro pasos (01, 05, 06 y 10) tienen corrida medida y por lo tanto las dos. En
+esos, el "Qué mirar" del `prompt.md` cita la corrida en una línea y enlaza al README para el
+detalle; no duplica. Si algún día un paso pierde su sección del README, su "Qué mirar" sigue
+siendo checklist de observación puro.
+
 ## La sección "Jugá con esto" (opcional)
 
 Existe porque el `prompt.md` es largo y preciso, y alguien que nunca programó puede
