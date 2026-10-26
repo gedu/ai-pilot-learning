@@ -2,7 +2,7 @@
 
 Arrancá por el Starter y mirá qué hace la IA. Si se fue por las ramas, subí a Medium. Si
 querés que quede igual que `expected.png`, pegá el Advanced. Con Starter y Medium **no te
-comparas contra la foto**: ahí lo que se mira es qué decidió la IA por su cuenta (está al
+compares contra la foto**: ahí lo que se mira es qué decidió la IA por su cuenta (está al
 final). El camino del curso es el Advanced.
 
 ## Starter — como se le pide a un amigo
