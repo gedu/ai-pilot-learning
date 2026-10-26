@@ -80,4 +80,45 @@ algo de libertad". Esto reemplaza el menú de 4 opciones que se le había ofreci
 de una los problemas 1, 2 y 3 del diagnóstico (inversión de ritual, tapar la respuesta, y
 práctica de la progresión) por estructura de página.
 
-**L3** ·
+**L3** · Ejemplo worked (step-06) y dos violaciones propias agarradas antes de escalarlo a
+los otros nueve: (1) mi Medium inicial: 9 líneas contra el presupuesto 3-6 que yo había
+escrito en `_FORMATO.md` diez minutos antes; recortado a 6, y lo que se perdió (el matiz del
+match laxo de iTunes) se convirtió en un bullet del checklist: sentir ese hueco ES la lección
+de "describir comportamiento vs conocer esta API". (2) Predicción fabricada en el checklist
+("el Starter suele dejar una llamada por letra") que la corrida medida L6 desmiente: esa
+corrida puso un debounce de 300ms sola. Reescrito como observación que cubre las dos salidas
+y cita el 300ms como lo que es: una posibilidad medida, no una promesa.
+
+**L4** · Dos hallazgos de metodología de delegación:
+- **El delimitador mata la receta**: los pasos 01-05 envuelven su prompt en CUATRO backticks
+  (tienen bloques ``` adentro); 06-10 usan tres. Un worker con la receta ingenua PARÓ y lo
+  reportó antes de escribir — bien; el formato ahora tiene una subsección dedicada (commit
+  a9a8310) y cada worker verificaba el suyo contando.
+- **El worker de 07-10 fracasó idéntico dos veces** ("ahora voy a escribir" y cero archivos,
+  70 y 43 turnos). Tercer relanzamiento sería apostar: los cuatro se hicieron inline con la
+  misma transformación mecánica. El worker de 01-03 se quedó corriendo después de que el
+  padre hiciera su parte; mandado STOP y cancelado, árbol verificado limpio después.
+
+**L5** · T3/T4/T5 cerrados. Los diez pasos con Starter (9-28 palabras) / Medium (92-129) /
+Advanced (247-623), bloque Advanced **byte-idéntico** verificado por substring contra el
+commit padre en los diez, fences balanceados en todo el repo, 56 links internos OK, app/
+cero archivos tocados, suite 54 verde + oxlint + build. Nota de libertad idéntica en los
+diez expected.md (script, no a mano). Ritual invertido en README (diagrama y loop). Escalera
+de `docs/prompting.md` renumerada a tres con los nombres de los archivos.
+Fixes de contenido agarrados en auditoría: tres ejemplos de `git diff` con rutas
+dependientes de cwd que daban VACÍO con exit 0 desde `app/` (verificado en zsh contra un
+commit que realmente tocaba el archivo: 55 líneas desde la raíz, 0 desde app/) — todos los
+comandos git ahora dicen "desde la raíz del repo"; dos typos míos (poné-la, Importe) y una
+frase compartida desunificada entre archivos (comparas→compares).
+Nativo `assess`: riesgo medium (por el propio doc del feature marcado ejecutable),
+`reviewDue: false` (under_budget), plan = autoverificación del escritor sin verificador
+separado. Seguido.
+
+**L6** · Criterios: **S1** (tres niveles, orden vago→detallado) ✓ diez archivos medidos;
+**S2** (expected.md intactos) ✓ diff no toca checklist alguno, sólo la cita de libertad; **S3**
+(Starter/Medium no se juzgan contra la foto) ✓ en README, cita de expected.md y
+_FORMATO; **S4** (checklists de observación, nada prometido; citas sólo de corridas L6/L8/L9/L12
+con fuente) ✓; **S5** (Advanced byte-idéntico) ✓ por substring en los diez; **S6** (escalera
+renumerada) ✓ sin restos de "Nivel N"; **S7** (formato) ✓; **S8** (ritual invertido) ✓;
+**S9** (comandos ejecutados antes, citas grepadas) ✓ — incluida la verificación en zsh desde
+ambas cwd y el conteo <form|<button en los tags para la afirmación del paso 02.
