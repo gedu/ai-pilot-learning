@@ -54,6 +54,39 @@ Desde `app/`:
    prueban el debounce de verdad (que no sigue al valor de inmediato, y que cuenta desde
    la última tecla y no desde la primera).
 
+## Jugá con esto (opcional, 10 minutos)
+
+Tu paso 06 ya está commiteado. Volvé al estado anterior (`git checkout step-05`) y probá
+pedirlo como se le pide a un amigo, sin leer el `prompt.md`:
+
+```
+agregá que se pueda escribir de a poco en la caja de búsqueda, y que busque mientras uno escribe
+```
+
+([Cómo volver y cómo volver a volver](../../docs/prompting.md).)
+
+Mirá qué hizo, sin corregirlo:
+
+- **Escribí una palabra de a una letra y contá los pedidos** (F12 → pestaña Network → en
+  el filtro tipeá `itunes`). ¿Aparece uno por letra? Ese hueco lo dejó tu pedido: no
+  dijiste "sin llamar por cada letra". El `prompt.md` del paso lo dice explícitamente, y
+  por eso existe el debounce.
+- **Si puso una espera entre letra y letra, preguntale de dónde salió ese número.** En la
+  corrida que hicimos sobre el paso 05 terminado salió `300ms`, y la IA respondió "ese
+  número es mío": nadie lo pidió. Está bien que exista; lo que hay que ver es que se
+  decide en silencio cuando no lo preguntás.
+- **Borrá todo lo escrito y mirá la pantalla.** ¿Lista vacía? ¿Vuelve la lista inicial?
+  ¿Error? En la corrida de prueba volvió a la lista inicial. Ninguna de las tres opciones
+  es un bug: son respuestas razonables a un pedido que no dijo qué hacer con la caja vacía.
+- **Corré `npm test` y contá.** El paso 06 del curso cierra con **24**; en la corrida de
+  prueba la IA terminó con **28** porque escribió más tests de los que se le pidieron.
+  Más no es mejor: son tests que nadie pidió y que nadie revisó.
+
+Lo más interesante de la corrida: apareció `src/ui/useDebouncedValue.ts` y se tocó
+`App.tsx`, casi exactamente los mismos archivos del curso, sin que nadie se los nombrara.
+La estructura obvia de React sale sola. Lo que no sale solo es justo lo que hay que pedir:
+cuántas llamadas, qué pasa con la caja vacía, y qué NO tocar.
+
 ## Si algo no funciona
 
 - **Los resultados desaparecen mientras escribís**: filtraste localmente siempre, sin

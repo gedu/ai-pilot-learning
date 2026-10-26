@@ -34,6 +34,10 @@ El lector hizo dos cursos y nunca trabajó programando. Cada archivo se lee en *
 1. `npm test` → te tiene que decir `X passed`.
 2. <una cosa concreta que mirar en la pantalla o en la terminal>
 
+## Jugá con esto (opcional)
+
+<opcional: sólo en los pasos marcados en la tabla de abajo. Ver la sección final.>
+
 ## Si algo no funciona
 
 - <problema real y su causa real. Máximo 3 bullets.>
@@ -89,6 +93,31 @@ instancia, no dos objetos parecidos.>
 
 <qué hacer: revisar, pedir el arreglo, o `git checkout step-NN` para comparar.>
 ```
+
+## La sección "Jugá con esto" (opcional)
+
+Existe porque el `prompt.md` es largo y preciso, y alguien que nunca programó puede
+creer que promptear es saberse todos los nombres de antemano. La sección muestra el otro
+extremo: el mismo pedido, hecho como se le pide a un amigo. Hoy la tienen los pasos
+**01, 05, 06 y 10** (donde la ambigüedad enseña algo y el costo de equivocarse es bajo).
+
+Reglas, todas obligatorias:
+
+- **Nunca reemplaza al `prompt.md`.** El juego arranca con el paso ya commiteado y se
+  deshace después; el prompt de referencia sigue siendo el camino que reproduce
+  `expected.md` y el tag.
+- El pedido vago va en **bloque de código, una o dos frases**, sin nombres de archivo ni
+  de tipos. Si parece un `prompt.md` corto, está mal.
+- Le sigue un **checklist de 3 o 4 cosas para mirar**, en segunda persona, sobre algo que
+  se pueda observar (un conteo de pedidos en Network, un `npm test`, qué se ve con la caja
+  vacía). Nunca una promesa de resultado ("vas a ver que…"): qué hace una IA con un pedido
+  vago cambia entre modelos y versiones.
+- Si algo se afirma de **una corrida concreta**, va escrito como tal ("en la corrida de
+  prueba salió X") y tiene que estar medido y registrado en el doc de feature. Sin
+  medición, no va.
+- Link a [`docs/prompting.md`](../docs/prompting.md) para el antes-de-jugar (commit) y el
+  deshacer.
+- Si el paso pasa los 4 minutos de lectura, se recorta esta sección; nunca el resto.
 
 ## Qué NO va en un paso
 
