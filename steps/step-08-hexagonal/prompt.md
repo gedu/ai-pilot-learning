@@ -1,4 +1,35 @@
-Copiá esto y pegalo tal cual en tu IA:
+# Paso 08 — tres formas de pedirlo
+
+Arrancá por el Starter y mirá qué hace la IA. Si se fue por las ramas, subí a Medium. Si
+querés que quede igual que `expected.png`, pegá el Advanced. Con Starter y Medium **no te
+compares contra la foto**: ahí lo que se mira es qué decidió la IA por su cuenta (está al
+final). El camino del curso es el Advanced.
+
+## Starter — como se le pide a un amigo
+
+Copiá esto y pegalo tal cual:
+
+```
+despegá la pantalla de iTunes, así mañana podemos cambiar la fuente sin tocarla
+```
+
+## Medium — el comportamiento, sin decir cómo
+
+Copiá esto y pegalo tal cual:
+
+```
+En mi app de podcasts (React + Vite + TypeScript, está en app/), la pantalla importa y
+llama directo al buscador de iTunes. Quiero cortar ese acoplamiento sin cambiar nada de lo
+que se ve: la lógica y la pantalla no tienen que poder nombrar "iTunes" ni llamar a `fetch`,
+sino hablar contra una interfaz. La regla de negocio (término vacío o de sólo espacios: no
+pedir nada y devolver lista vacía; si no, mandar el término sin espacios sobrantes) tiene
+que vivir en la lógica, no en la pantalla. Y que exista UN solo lugar donde la lógica y el
+mundo de afuera se nombran juntos. Los tests que ya pasan no tienen que notar el cambio.
+```
+
+## Advanced — el prompt del curso
+
+Es el que reproduce `expected.md` y el tag `step-08`. Copiá esto y pegalo tal cual:
 
 ```
 Necesito aplicar arquitectura hexagonal SOLO al punto donde esta app React + TypeScript
@@ -53,3 +84,17 @@ Al final explicame en 3 líneas qué gana la app con que `App.tsx` no sepa que e
 
 Cuando devuelva algo, corré `npx vitest run src/application` y fijate si el falso
 repositorio del test es un objeto de 5 líneas: si simulaste `fetch` otra vez, no aplicó el patrón.
+
+## Qué mirar después de cada nivel
+
+- `git diff --stat`: ¿cuántos archivos nuevos? Un pedido vago suele crear uno; el corte
+  limpio son varios (interfaz, lógica, adaptador, y el lugar donde se conectan). Contá los
+  del Advanced y compará contra los tuyos: esa diferencia ES la arquitectura del paso.
+- **Buscá "iTunes" donde no debería estar**: `git diff app/src/app/App.tsx` (desde la raíz
+  del repo). Si la pantalla sigue nombrando iTunes o llamando `fetch` directo, el corte no
+  se hizo: se movió de lugar.
+- **¿Dónde quedó la regla del término vacío?** Si la dejó en la pantalla, en el próximo
+  paso no hay forma de reemplazar la fuente sin reescribirla. Es la pregunta que separa
+  "hay archivo nuevo" de "hay arquitectura".
+- **`npm test` sigue en verde con los mismos tests**: este paso no agrega conducta, así que
+  si los tests viejos cambiaron, algo visible cambió — que era lo prohibido.

@@ -8,28 +8,23 @@ aprende.
 Acá están las reglas que en los pasos están repartidas al pie del bloque copiable, todas
 juntas y con nombre. Y cómo jugar con ellas sin romper el paso que ya te salió.
 
-## La escalera: el mismo pedido, cuatro niveles
+## La escalera: el mismo pedido, tres niveles
 
-Es el mismo pedido del paso 06, escrito cuatro veces. No hay una versión "correcta": cada
-nivel sirve para algo distinto.
+Son los tres niveles que hay en cada `prompt.md` del curso, aplicados al mismo pedido del
+paso 06. No hay una versión "correcta": cada nivel sirve para algo distinto, y el punto del
+curso es que **empezás arriba**.
 
-**Nivel 1 — como se le habla a un amigo.**
+**Starter — como se le habla a un amigo.**
 ```
 que busque mientras uno escribe
 ```
-Sirve para arrancar y para ver qué decide la IA por su cuenta. Casi nunca alcanza, pero
-es el punto de partida honesto: nadie sabe qué pedir antes de empezar.
+Una o dos frases, sin nombres técnicos. Sirve para arrancar y para ver qué decide la IA por
+su cuenta. Casi nunca alcanza, pero es el punto de partida honesto: nadie sabe qué pedir
+antes de empezar. Y si querés ser más generoso sin dejar de ser vago, agregale sólo el
+contexto que la IA no puede adivinar (*"en mi app de React, la caja hoy busca una sola vez
+con un texto fijo"*) — seguí sin decirle cómo.
 
-**Nivel 2 — le sumás el contexto que la IA no puede adivinar.**
-```
-En mi app de podcasts (React + Vite, está en app/), la caja de búsqueda hoy busca una
-sola vez con un texto fijo. Quiero que busque mientras uno escribe, pero sin llamar a
-iTunes por cada letra.
-```
-Ya no hay adivinación posible sobre el estado actual. Notá que **no** dijiste qué es un
-debounce: describiste el problema ("sin llamar por cada letra") y la IA lo resuelve.
-
-**Nivel 3 — describís el comportamiento, no la solución.**
+**Medium — el comportamiento, sin decir cómo.**
 ```
 … cuando escribo rápido no tiene que haber una llamada por letra: si sigo tecleando, la
 espera se reinicia y se busca una sola vez cuando me callo. Mientras tanto, la lista que
@@ -37,16 +32,20 @@ ya está en pantalla tiene que filtrarse localmente para que no se vean datos vi
 ```
 Este es el salto que más rinde. Pedís **qué tiene que pasar**, y sale bien aunque la IA
 elija otra forma de implementarlo. Es la regla del formato de este repo: "haceme un
-config" produce un config cualquiera; "la URL vive en un archivo, se crea una sola vez y
-cualquiera la pide" produce un singleton.
+config" produce un config cualquiera; "la URL vive en un archivo, que se crea una sola vez
+y que cualquiera la pide" produce un singleton. Sin nombres de archivo ni de funciones: eso
+ya sería el nivel de abajo.
 
-**Nivel 4 — el prompt del paso.**
-Nombres de archivo, tipos, qué prueba cada test. Acá ya sabés cómo se llama todo porque
-los pasos anteriores te lo enseñaron, y necesitás que el resultado sea **exactamente** el
-del paso para poder comparar contra `expected.png`.
+**Advanced — el prompt del paso.**
+Nombres de archivo, tipos, qué prueba cada test. Es el que reproduce `expected.png` y el tag
+`step-NN`, y está **al final** de cada `prompt.md` porque es la respuesta del curso: si lo
+pegás primero, no hay nada que aprender del medio.
 
-> Regla práctica: empezá en el 2 o el 3. Si la IA se va por las ramas, bajá al 4 y dale
-> los nombres. Si se trago el 4 sin entender, volvé al 3 y explicale vos el comportamiento.
+> Regla práctica: arrancá en Starter y mirá `git diff --stat`. Si la IA se fue por las
+> ramas, subí a Medium y describile el comportamiento que extrañaste. Si necesitás que
+> encastra con el paso (o querés comparar contra la foto), pegá el Advanced. Y si te comiste
+> el Advanced sin entender qué pidió, volvé al Medium y escribilo vos: ahí está el
+> aprendizaje.
 
 ## Las cinco reglas del pedido
 
@@ -93,11 +92,14 @@ de cada paso**.
 
 1. **Antes de jugar, commiteá.** `git add -A && git commit -m "paso 06 andá"`. Acá no se
    rompe nada que no se pueda recuperar.
-2. **Después de cada respuesta de la IA, mirá qué tocó.** Corré `git diff --stat`: te lista
-   todos los archivos que cambiaron con cuántas líneas en cada uno. Ahí se ven las dos cosas
+2. **Después de cada respuesta de la IA, mirá qué tocó.** (Los comandos `git`, desde la
+   **raíz del repo** —donde `git status --short` lista las rutas con `app/` delante, y ese
+   mismo path te sirve para `git diff`. Los de `npm`, desde `app/`.) Corré `git diff --stat`:
+   te lista todos los archivos que cambiaron con cuántas líneas en cada uno. Ahí se ven las dos cosas
    que más te tienen que interesar: si aparece un `.test.tsx` (¿tocó un test que ya pasaba?)
    y si aparece `package.json` (¿te agregó una dependencia?). Para leer el detalle de uno
-   solo: `git diff src/app/App.test.tsx`. Y `git status --short` te muestra además los
+   solo: `git diff app/src/app/App.test.tsx` (con la ruta tal cual la mostró `git status`).
+   Y `git status --short` te muestra además los
    archivos **nuevos** (con `??`), que `git diff` no lista. Esto es lo más rentable del
    curso: tres segundos que te dicen si te borró un test o tocó un archivo que no debías.
 3. **Si lo que hizo no te gustó, no lo arregles: deshacelo.** `git restore .` vuelve a los

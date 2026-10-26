@@ -28,13 +28,20 @@ siempre igual:
 
 ```
 ┌────────────────────────────────────────────────────────────┐
-│ 1. prompt.md      →  copialo y pegalo en tu IA. Tal cual.  │
-│ 2. README.md      →  qué estamos haciendo, y el CÓDIGO     │
+│ 1. README.md      →  qué estamos haciendo, y el CÓDIGO     │
 │                      que tocamos + la ARQUITECTURA (diagrama)│
+│ 2. prompt.md      →  TRES pedidos: Starter, Medium y       │
+│                      Advanced (el detallado va AL FINAL)   │
 │ 3. expected.md    →  cómo sé que quedó bien  +  📷 expected.png
 └────────────────────────────────────────────────────────────┘
      CÓDIGO        ARQUITECTURA        PATRÓN        RESULTADO
 ```
+
+El orden del `prompt.md` no es cosmético: se empieza por el **Starter** (una frase, como
+se le dice a un amigo), se mira qué hizo la IA, y se sube a **Medium** o **Advanced** según
+lo que haya salido. El pedido detallado está al final a propósito: es la **respuesta del
+curso**, y si lo abrís primero no hay juego posible. Con Starter y Medium **no te compares
+contra la foto** — esa vara es del Advanced, y se llama Advanced por algo.
 
 Si te trabás, no pelees: `git checkout step-05` y ves el código de ese paso hecho.
 Después `git checkout main` (o `git checkout -` ) y seguís.
@@ -64,8 +71,10 @@ Cada etapa tiene su `expected.png`. Si tu pantalla no se parece, no terminaste. 
 ## Cómo se usa (el loop completo)
 
 1. **Leé** el `README.md` del paso (2 min). Elegí *un* paso, siempre en orden.
-2. **Copiá** el `prompt.md` y pegalo en Claude/ChatGPT/Cursor. Si no sabés abrir
-   la terminal o crear archivos, pedile eso primero, en español, como a una persona.
+2. **Pedilo** con el `prompt.md`: empezá por el **Starter** y mirá qué hace la IA; si se
+   fue por las ramas, subí a **Medium**; si querés el resultado exacto del curso, pegá el
+   **Advanced**. En Claude/ChatGPT/Cursor. Si no sabés abrir la terminal o crear archivos,
+   pedile eso primero, en español, como a una persona.
 3. **Ejecutá** lo que te diga. Algo va a fallar: pegale el error **completo** y
    dejalo arreglarlo. Eso también es programar.
 4. **Compará** contra `expected.md` + `expected.png`.
