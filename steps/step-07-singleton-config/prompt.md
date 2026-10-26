@@ -10,7 +10,7 @@ final). El camino del curso es el Advanced.
 Copiá esto y pegalo tal cual:
 
 ```
-sacá la URL de iTunes que está escrita dentro del código y poné-la en un solo lugar del que la pidan todos
+sacá la URL de iTunes que está escrita dentro del código y ponela en un solo lugar del que la pidan todos
 ```
 
 ## Medium — el comportamiento, sin decir cómo
@@ -20,7 +20,7 @@ Copiá esto y pegalo tal cual:
 ```
 En mi app de podcasts (React + Vite + TypeScript, está en app/), la URL de iTunes está
 copiada a mano dentro del archivo que busca. La quiero en un archivo de configuración que
-cualquiera pueda pedir. Importe el comportamiento: si dos lugares distintos piden la config
+cualquiera pueda pedir. Importante: el comportamiento: si dos lugares distintos piden la config
 al mismo tiempo, tienen que recibir EXACTAMENTE la misma cosa, no dos copias parecidas; y
 nadie desde afuera tiene que poder cambiarle un valor. Escribí los tests junto con el
 código, y que el test pruebe la identidad (la misma instancia), no que los datos se
