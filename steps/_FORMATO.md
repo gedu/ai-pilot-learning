@@ -45,19 +45,74 @@ El lector hizo dos cursos y nunca trabajó programando. Cada archivo se lee en *
 
 ## prompt.md
 
-Un prompt listo para copiar/pegar en Claude/ChatGPT/Cursor. Formato:
+Tres prompts para el mismo paso, del más vago al más detallado. Se prueban en ese orden:
+el **Starter** muestra qué decide la IA sola, el **Advanced** es el que reproduce
+`expected.md`. El orden no es cosmético: el answer key queda al final de la página, así
+que jugar primero no exige fuerza de voluntad.
 
 ````
-Copiá esto y pegalo tal cual en tu IA:
+# Paso NN — tres formas de pedirlo
+
+Arrancá por el Starter y miré qué hace la IA. Si se fue por las ramas, subí a Medium.
+Si querés que quede igual que `expected.png`, pegá el Advanced.
+
+## Starter — como se le pide a un amigo
+
+Copiá esto y pegalo tal cual:
 
 ​```
-<el prompt>
+<1 o 2 frases. Qué se quiere, en el idioma en que se lo dirías a alguien. Sin nombres de
+archivo, sin tipos, sin librerías.>
 ​```
-​
+
+## Medium — el comportamiento, sin decir cómo
+
+Copiá esto y pegalo tal cual:
+
+​```
+<3 a 6 líneas: qué tiene que pasar, qué NO tiene que pasar, y el contexto que la IA no
+puede adivinar (en qué carpeta está la app, qué hace hoy). Describe el comportamiento; no
+nombra archivos ni funciones.>
+​```
+
+## Advanced — el prompt del curso
+
+Es el que reproduce `expected.md` y el tag `step-NN`. Copiá esto y pegalo tal cual:
+
+​```
+<el prompt largo de siempre, con nombres de archivo, tipos y qué prueba cada test>
+​```
+
 <1 o 2 líneas sobre qué hacer cuando devuelve algo>
+
+## Qué mirar después de cada nivel
+
+- `git diff --stat`: ¿apareció `package.json`? ¿un `.test.tsx`? ¿archivos nuevos?
+- <2 o 3 observaciones concretas de ESTE paso: qué decisión tomó la IA que el pedido no
+  pidió, y dónde verla>
 ````
 
-Reglas del prompt (importan, son el corazón del repo):
+Reglas de los tres niveles (importan, son el corazón del repo):
+
+1. **Starter no nombra nada técnico.** Ni archivo, ni tipo, ni librería, ni comando. Si
+   tenés que nombrar algo para que se entienda, eso ya es Medium.
+2. **Medium describe el comportamiento y el contexto**, nunca la solución. "La espera se
+   reinicia si sigo tecleando" sí; "hacé un hook useDebouncedValue" no. Es el nivel que
+   más enseña: sale bien aunque la IA elija otra forma de implementarlo.
+3. **Advanced no se edita nunca.** Es el que encastra con el tag y con `expected.png`;
+   cambiarlo rompe la comparación. Si algo del paso cambia, se cambia en las tres
+   apariciones (paso, tag, expected) o en ninguna.
+4. **`expected.md` es la vara del Advanced.** Con Starter y Medium no se compara contra la
+   foto: se mira qué decidió la IA. Los tres niveles tienen salida propia y ninguna es
+   "estar mal".
+5. **"Qué mirar después de cada nivel" es obligatorio**, y es un checklist de observación,
+   no una promesa. Se pueden citar resultados medidos (corridas reales, registradas en
+   `odd/tasks/`), pero con la fuente: "en la corrida de prueba salió X".
+6. El **largo** es presupuesto, no sugerencia: Starter 1-2 líneas, Medium 3-6, Advanced lo
+   que venía ocupando (293-663 palabras en los pasos actuales). Si Medium crece, está
+   haciendo el trabajo del Advanced.
+
+Reglas del prompt (aplican a los tres, sobre todo al Advanced):
 
 1. **Se pide el comportamiento, no sólo "haceme X"**. Un prompt que dice
    "haceme un config" produce un config cualquiera; uno que dice "la URL tiene que
@@ -65,11 +120,12 @@ Reglas del prompt (importan, son el corazón del repo):
    un singleton. Los detalles del patrón van **dentro** del prompt.
 2. Pide **el test junto con el código**, y dice qué tiene que probar el test.
 3. Dice **qué archivo crear y dónde**, porque un principiante no sabe nombres de
-   carpeta, y porque así podés comparar contra `expected.md`.
+   carpeta, y porque así podés comparar contra `expected.md`. (Esto es del Advanced: el
+   Starter y el Medium lo omiten a propósito.)
 4. Pide que la IA **explique qué hizo en 3 líneas** al final. Sin explicación no hay
    aprendizaje.
 5. En español, con vocales y acentos correctos: se copia y pega, no se traduce.
-6. Un prompt por paso. No se mezclan dos ideas.
+6. Un pedido por nivel. No se mezclan dos ideas en el mismo bloque.
 
 ## expected.md
 
