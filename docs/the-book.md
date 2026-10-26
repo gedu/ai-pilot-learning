@@ -26,7 +26,7 @@ el índice real del sitio y qué usamos de cada uno.
 | 12 | Angular | ⬜ |
 | 13 | Barrels | 💬 paso 09 (por qué evitamos `index.ts` que re-exporta todo) |
 | 14 | Front End History | ⬜ |
-| 15 | IA Driven Development | ✅ paso 10 + cómo escribir el `prompt.md` |
+| 15 | IA Driven Development | ✅ paso 10 + [`prompting.md`](prompting.md) |
 | 16 | Frontend Manual | ⬜ |
 | 17 | Soft Skills | 💬 antes de trabajar en duo |
 | 18 | Software Architecture | ✅ paso 07 (por qué una config global) |
