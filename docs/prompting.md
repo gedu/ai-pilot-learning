@@ -79,13 +79,17 @@ de cada paso**.
 1. **Antes de jugar, commiteá.** `git add -A && git commit -m "paso 06 andá"`. Acá no se
    rompe nada que no se pueda recuperar.
 2. **Después de cada respuesta de la IA, mirá qué tocó.** `git status --short` te da la
-   lista de archivos; `git diff` te muestra línea por línea. Esto es lo más rentable del
-   curso: tres segundos que te dicen si te agregó una dependencia, si te borró un test, o
-   si tocó un archivo que no debías.
+   lista de archivos; `git diff` te muestra línea por línea. Y dos más que valen oro
+   cuando la IA se pasó de lista: `git diff -- app/src/**/*.test.tsx` (¿tocó un test que ya
+   pasaba?) y `git diff -- app/package.json` (¿te agregó una dependencia?). Esto es lo más
+   rentable del curso: tres segundos que te dicen si te borró un test o tocó un archivo que
+   no debías.
 3. **Si lo que hizo no te gustó, no lo arregles: deshacelo.** `git restore .` vuelve a los
    archivos que la IA **modificó**. Ojo con un detalle que sorprende: los archivos **nuevos**
-   que creó se quedan (aparecen con `??` en `git status --short`). Borralos a mano o
-   pedile que los borre ella. Deshacer no es fracasar; es parte del juego.
+   que creó se quedan (aparecen con `??` en `git status --short`). Vedlos con
+   `git ls-files --others --exclude-standard` y borralos a mano o pedile que los borre ella.
+   Y si querés ver también lo que quedó ignorado (un `dist/` que la IA construyó para
+   probar): `git status --ignored --short --untracked-files=all`. Deshacer no es fracasar; es parte del juego.
 4. **Y si querés el código del curso tal cual: `git checkout step-06`.** Después
    `git checkout -` para volver.
 

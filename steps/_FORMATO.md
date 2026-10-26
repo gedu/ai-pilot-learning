@@ -117,7 +117,11 @@ Reglas, todas obligatorias:
   medición, no va.
 - Link a [`docs/prompting.md`](../docs/prompting.md) para el antes-de-jugar (commit) y el
   deshacer.
-- Si el paso pasa los 4 minutos de lectura, se recorta esta sección; nunca el resto.
+- **Presupuesto de lectura.** El techo de 4 minutos de "Cuánto texto" aplica a lo
+  **obligatorio** (el README sin esta sección, el `prompt.md`, el `expected.md`). "Jugá con
+  esto" es opcional y tiene techo propio: **3 minutos** (~600 palabras). Un README con la
+  sección completa puede leerse en 5 o 6 minutos; está bien, porque la sección se puede
+  saltear. Lo que no está bien es que lo obligatorio crezca.
 
 ## Qué NO va en un paso
 
