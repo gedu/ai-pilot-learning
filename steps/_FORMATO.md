@@ -127,6 +127,20 @@ Reglas del prompt (aplican a los tres, sobre todo al Advanced):
 5. En español, con vocales y acentos correctos: se copia y pega, no se traduce.
 6. Un pedido por nivel. No se mezclan dos ideas en el mismo bloque.
 
+### Qué delimitador usar (esto muerde)
+
+Los prompts de los pasos **01 a 05** contienen bloques ``` adentro (le dicen a la IA cómo
+crear archivos, con ejemplos), así que su prompt va envuelto en **cuatro** backticks
+(`````) y no en tres. Los pasos 06 a 10 no tienen nada adentro y usan tres. Si envolvés en
+tres un prompt que tiene ``` adentro, el bloque se corta a la mitad y el resto del archivo
+se rompe al renderizar.
+
+- **Starter y Medium**: siempre en tres backticks (nunca llevan código adentro; si necesitan
+  un comando, va en el medio de la frase, no en su propio bloque).
+- **Advanced**: el mismo delimitador que usaba el archivo original. Si el bloque viejo estaba
+  en cuatro, el nuevo va en cuatro. Y `## Qué mirar después de cada nivel` siempre va
+  **después** del Advanced, fuera de cualquier bloque.
+
 ## expected.md
 
 ```
