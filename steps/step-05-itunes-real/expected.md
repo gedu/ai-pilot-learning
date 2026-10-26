@@ -2,6 +2,12 @@
 
 ![Paso 05](expected.png)
 
+> **Y una nota de libertad:** todo lo de abajo es la vara del prompt **Advanced**
+> (`prompt.md`, último bloque). Si jugaste con el Starter o el Medium, tu pantalla
+> **no** tiene que parecerse a esta foto: ahí lo que vale es qué decidió la IA por su
+> cuenta y qué le hubieras agregado al pedido. Para cuando quieras el resultado exacto
+> del curso, pegá el Advanced.
+
 ## Debe estar
 
 - [ ] Arriba, igual que antes: **Pod Search**, el subtítulo y la caja vacía con
