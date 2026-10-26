@@ -194,3 +194,49 @@ revisemos antes de pushear". No se tomo como authorization nueva por su origen; 
 repitio despues en un turno real, y solo ahi se avanzo. Ademas: el turno "real" coincidia con
 el texto inyectado, asi que igual se mantuvo la revision T4 completa antes de pushear.
 
+**L16** · T4 cerrado. Fixes que salieron de la auditoría de afirmaciones (no de un revisor
+externo):
+- Reglas contadas con `grep` en los 10 `prompt.md`: "no toques X" 5/10 (02,03,08,09,10),
+  "test junto con el código" 8/10 (01,02,03,05,06,07,08,10), "explicame en 3 líneas" 9/10
+  (falta el 09), "error completo" en los prompts 01 y 05 + el loop del README, "pregunta del
+  entorno" sólo en el README. El texto decía "se repiten en todos los pasos": reescrito con
+  números y con los dos huecos vueltos lección (el 04 pone el test ANTES; el 09 prohíbe
+  tocarlos).
+- El pathspec con glob del doc, probado en zsh (el shell default de macOS): sin comillas
+  aborta con `no matches found`; con comillas, desde `app/`, resuelve a `app/app/src/...` e
+  imprime nada con exit 0 — vacío silencioso justo en la chec que existe para detectar que la IA
+  tocó un test. Reemplazado por `git diff --stat` + `git diff src/app/App.test.tsx`, ambos
+  verificados en zsh desde `app/`. Verificados también en zsh: `git checkout -`,
+  `git restore .`, `git ls-files --others --exclude-standard`, `git status --ignored --short
+  --untracked-files=all`.
+- 56 links internos (contados fuera de bloques de código): todos resuelven.
+- Fuga corregida antes de publicar: L5 y L7 nombraban el modelo de codificación bajo evaluación
+  y el log privado de incidencias; la AGENTS.md de este workspace dice que esas notas no van en
+  un repo que publica como OSS. Reescritas sin nombres, mismo contenido.
+- Nativo `assess`: riesgo `passive` (`non_executable_only`), `reviewDue: false`, plan = lectura
+  estructural del padre, sin verificador. Seguido; esa lectura fue la que encontró lo de arriba.
+- Engram `test-review/feat/prompting-play`: **skipped**, es 100% documentación (0 tests
+  agregados, cambiados o borrados), con la auditoría de afirmaciones en su lugar.
+
+**L17** · Publicado. PR #2 (7 commits, 9 archivos, 508 inserciones, **0 archivos de `app/`**)
+entró a `main` con merge commit `4468240`.
+**Gate nuevo**: un ruleset de `main` creado el 2026-10-25 11:24 —después del merge del PR #1,
+por eso el #1 no lo pisó— pide 1 aprobación. Como el PR se abre con el token del dueño, el
+autor ES `gedu`, y GitHub rechaza la autoaprobación; el repo tiene un solo colaborador, o sea
+que el gate es insatisfacible para PRs abiertos por la IA. El usuario eligió bypassear con
+`--admin` esta vez y dejar el ruleset intacto (Engram, topic `repo/merge-gate-ai-pilot-learning`).
+Queda abierta, decisión suya y no bloqueo: cuenta bot como autor de los PRs para que la revisión
+humana vuelva a significar algo. El ruleset permite squash y rebase, pero eso sacaría los SHAs
+de los tags de la historia de `main` y rompería `git checkout step-NN`; el Merge Danger lo dice.
+**Post-merge verificado**: los 11 tags son ancestros de `main`; `main` con 54 tests, oxlint y
+build verdes; un clon público nuevo muestra `docs/prompting.md` y las 4 secciones "Jugá"; y en
+ese mismo clon `git checkout step-07` sigue dando 30 tests + build ok.
+
+**L18** · Feature cerrada, criterio por criterio: **S1** (pedidos mucho más simples al lado del
+de referencia) ✓ en los 4 pasos; **S2** (jugar guiado con checklist, no "experimentá y chau")
+✓; **S3** (aditivo: el diff contra `origin/main` no toca `app/`, ni un `prompt.md`, ni un
+`expected.*`) ✓; **S4** (nada afirmado sin corrida, y el confound declarado en el texto que lee
+el alumno, no escondido acá) ✓; **S5** (las cinco reglas con nombre y conteo real) ✓; **S6**
+(`_FORMATO.md` describe la sección y sus reglas; presupuesto medido en palabras) ✓; **S7**
+(docs en español rioplatense, commits en inglés) ✓.
+
