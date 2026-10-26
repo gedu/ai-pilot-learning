@@ -52,6 +52,44 @@ Desde `app/`:
    `curl "https://itunes.apple.com/search?media=podcast&term=inteligencia+artificial&limit=2" | head -20`
    → JSON con `resultCount` y `results`.
 
+## Jugá con esto (opcional, 10 minutos)
+
+Tu paso 05 ya está commiteado. Volvé al paso 04 (`git checkout step-04`) y probá pedirlo
+así, sin leer el `prompt.md`:
+
+```
+hacé que la búsqueda funcione de verdad: que busque podcasts de IA en internet y muestre
+los resultados en la pantalla
+```
+
+Fijate qué hizo, sin corregirlo:
+
+- **Fijate cómo se llama el archivo nuevo.** En la corrida de prueba creó
+  `src/infrastructure/iTunesRepository.ts`, con la `I` de iTunes en mayúscula. El curso usa
+  `itunesRepository.ts`, toda en minúscula. Adentro funciona igual — su propio `import` es
+  coherente — pero ahora compará contra `git checkout step-05`: los archivos no se llaman
+  igual y el `git diff` no te va a juntar las piezas. **Ese es el motivo #1 por el que el
+  `prompt.md` del paso nombra el archivo exacto.** Cuando algo del curso te tiene que
+  encastrar con otra cosa, decí el nombre.
+- **Mirá si te agregó un botón.** En la corrida convirtió la caja en un `<form>` con botón
+  **Buscar**, o sea: hay que apretar Enter o el botón para buscar. El curso **no** pone botón
+  hasta el paso 10, y `expected.png` del paso 05 no lo tiene. No es un error: es la otra
+  lectura razonable de "que funcione de verdad". Elegí conscientemente cuál querés y por
+  qué.
+- **Fijate si te metió algo que el curso deja para después.** La corrida agregó
+  `AbortController` para cancelar la búsqueda anterior. Ningún tag del curso lo tiene. Su
+  argumento es bueno (con latencia real, una respuesta vieja pisando a la nueva es un bug),
+  pero en el curso eso llega en el paso 06/10, cuando ya tenés debounce para que se note el
+  problema. Pedir "que funcione de verdad" invita a que la IA se adelante tres pasos.
+- **Contá los tests.** En la corrida: 15 → **29**. Leé los nombres de los nuevos: si alguno
+  prueba algo que no se te ocurrió pedir, eso es información tuya sobre qué estabas
+  dando por supuesto.
+
+Lo que sí salió bien sin que nadie lo nombre: tradujo los campos de Apple
+(`collectionName`, `artistName`, `artworkUrl100`) a los tipos de tu app, sin tocar el
+dominio. Ese tipo de decisión sale sola; las que no salen solas son cuántas veces se busca,
+cómo se llaman las cosas, y qué no hay que tocar todavía.
+
 ## Si algo no funciona
 
 - **Caja roja "No se pudo buscar en iTunes. Revisá tu conexión."** — no hay red o la API no

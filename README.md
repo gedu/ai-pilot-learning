@@ -39,6 +39,11 @@ siempre igual:
 Si te trabás, no pelees: `git checkout step-05` y ves el código de ese paso hecho.
 Después `git checkout main` (o `git checkout -` ) y seguís.
 
+Y cuando tengas la app caminando, hay un cuarto archivo que no es de ningún paso:
+[`docs/prompting.md`](docs/prompting.md) — cómo pedir las cosas, por qué los `prompt.md`
+son tan detallados, y cómo **jugar** a pedir flojo sin romper lo que ya te salió (los
+pasos 01, 05, 06 y 10 tienen una sección "Jugá con esto").
+
 ## Las 10 etapas
 
 | # | Etapa | Qué vas a ver funcionando | Capítulo del libro |
